@@ -88,7 +88,10 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios, inputValues }) => {
                 }}
                 labelFormatter={(label) => `만기 수익률: ${label}`}
               />
-              <Legend />
+              <Legend 
+                wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }}
+                iconType="line"
+              />
               {/* 동적으로 각 투자 종류의 Line 생성 */}
               {investmentTypes.map((type, index) => {
                 const colors = ['#3B82F6', '#10B981', '#F59E0B', '#8B5CF6', '#EF4444', '#06B6D4', '#84CC16'];
@@ -98,7 +101,9 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios, inputValues }) => {
                     type="monotone" 
                     dataKey={`${type.id}CumulativeReturn`} 
                     stroke={colors[index % colors.length]} 
-                    strokeWidth={2}
+                    strokeWidth={2.5}
+                    dot={{ r: 2, strokeWidth: 1 }}
+                    activeDot={{ r: 4, strokeWidth: 2 }}
                     name={`${type.name} 누적 수익률`}
                   />
                 );
@@ -109,6 +114,8 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios, inputValues }) => {
                 stroke="#EF4444" 
                 strokeWidth={3}
                 strokeDasharray="5 5"
+                dot={{ r: 2.5, strokeWidth: 1.5 }}
+                activeDot={{ r: 5, strokeWidth: 2 }}
                 name="전체 누적 수익률"
               />
             </LineChart>
@@ -212,7 +219,10 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios, inputValues }) => {
                 }}
                 labelFormatter={(label) => `만기 수익률: ${label}`}
               />
-              <Legend />
+              <Legend 
+                wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }}
+                iconType="rect"
+              />
               {/* 동적으로 각 투자 종류의 Bar 생성 */}
               {investmentTypes.map((type, index) => {
                 const colors = ['#3B82F6', '#10B981', '#F59E0B', '#8B5CF6', '#EF4444', '#06B6D4', '#84CC16'];
