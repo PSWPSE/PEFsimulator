@@ -9,14 +9,11 @@ function App() {
   const [result, setResult] = useState<InvestmentResult | null>(null);
   const [scenarios, setScenarios] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [currentInputValues, setCurrentInputValues] = useState<InvestmentInput | null>(null);
 
   const handleSubmit = (data: InvestmentInput) => {
     try {
       setError(null);
       
-      // 현재 입력값 저장
-      setCurrentInputValues(data);
       
       // 사용자가 입력한 '달성 수익률(누적 수익률%)'로 메인 시뮬레이션 결과 계산
       // data.simulationReturn 값을 사용하여 '전체 요약'과 '수익금 현황' 계산
