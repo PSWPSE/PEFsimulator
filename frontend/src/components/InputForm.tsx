@@ -308,15 +308,15 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, defaultValues })
                               />
                               <span className="text-xs sm:text-sm">1종 대비 %</span>
                             </label>
-                            <label className="flex items-center">
-                              <input
-                                type="radio"
-                                {...register(`investmentTypes.${index}.inputMode`)}
-                                value="amount"
-                                className="mr-2"
-                              />
-                              <span className="text-xs sm:text-sm">직접 금액 (억원)</span>
-                            </label>
+            <label className="flex items-center">
+              <input
+                type="radio"
+                {...register(`investmentTypes.${index}.inputMode`)}
+                value="amount"
+                className="mr-2"
+              />
+              <span className="text-xs sm:text-sm">직접 입력</span>
+            </label>
                           </div>
                           
                           {/* 입력 필드들을 한 줄로 배치 */}
