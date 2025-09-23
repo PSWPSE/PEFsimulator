@@ -23,10 +23,10 @@ function App() {
       const calculatedResult = calculateInvestmentResult(data);
       setResult(calculatedResult);
 
-          // 다양한 만기 수익률 시나리오 생성 (-20%부터 40%까지, 1% 간격)
+          // 다양한 만기 수익률 시나리오 생성 (-20%부터 40%까지, 0.5% 간격)
           const returnRates = [];
-          for (let rate = -20; rate <= 40; rate += 1) {
-            returnRates.push(rate);
+          for (let rate = -20; rate <= 40; rate += 0.5) {
+            returnRates.push(Math.round(rate * 10) / 10); // 소수점 정밀도 보정
           }
       
       const simulationScenarios = generateSimulationScenarios(
@@ -115,22 +115,7 @@ function App() {
                     <h2 className="text-xl font-bold text-gray-900">시각화 분석</h2>
                     <p className="text-gray-600 text-sm mt-1">수익률별 시나리오 분석 및 비교</p>
                   </div>
-                  <Charts 
-                    scenarios={scenarios} 
-                    inputValues={{
-                      thresholdReturn: currentInputValues?.thresholdReturn || 7,
-                      investmentPeriod: currentInputValues?.investmentPeriod || 2,
-                      type1ExcessRate: currentInputValues?.useRangeBasedDistribution 
-                        ? currentInputValues?.distributionRanges?.[0]?.distributions?.type1 || 15
-                        : currentInputValues?.globalDistribution?.type1 || 15,
-                      type2ExcessRate: currentInputValues?.useRangeBasedDistribution 
-                        ? currentInputValues?.distributionRanges?.[0]?.distributions?.type2 || 70
-                        : currentInputValues?.globalDistribution?.type2 || 70,
-                      type3ExcessRate: currentInputValues?.useRangeBasedDistribution 
-                        ? currentInputValues?.distributionRanges?.[0]?.distributions?.type3 || 15
-                        : currentInputValues?.globalDistribution?.type3 || 15,
-                    }}
-                  />
+                  <Charts scenarios={scenarios} />
                 </div>
               )}
             </div>

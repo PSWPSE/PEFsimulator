@@ -5,16 +5,9 @@ import { formatCurrency } from '../utils/calculator';
 
 interface ChartsProps {
   scenarios: SimulationScenario[];
-  inputValues: {
-    thresholdReturn: number;
-    investmentPeriod: number;
-    type1ExcessRate: number;
-    type2ExcessRate: number;
-    type3ExcessRate: number;
-  };
 }
 
-export const Charts: React.FC<ChartsProps> = ({ scenarios, inputValues }) => {
+export const Charts: React.FC<ChartsProps> = ({ scenarios }) => {
   // 동적 투자 종류 정보 추출 (첫 번째 시나리오에서)
   const investmentTypes = scenarios.length > 0 ? scenarios[0].result.typeResults : [];
   
@@ -67,8 +60,11 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios, inputValues }) => {
               <XAxis 
                 dataKey="returnRate" 
                 tick={{ fontSize: 10 }}
-                interval="preserveStartEnd"
+                interval={4}
                 tickFormatter={(value) => value}
+                domain={['dataMin', 'dataMax']}
+                type="category"
+                allowDuplicatedCategory={false}
               />
               <YAxis 
                 tick={{ fontSize: 10 }}
@@ -158,8 +154,11 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios, inputValues }) => {
               <XAxis 
                 dataKey="returnRate" 
                 tick={{ fontSize: 10 }}
-                interval="preserveStartEnd"
+                interval={4}
                 tickFormatter={(value) => value}
+                domain={['dataMin', 'dataMax']}
+                type="category"
+                allowDuplicatedCategory={false}
               />
               <YAxis 
                 tick={{ fontSize: 10 }}
