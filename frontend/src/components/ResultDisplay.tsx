@@ -14,7 +14,7 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ result }) => {
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">시뮬레이션 결과</h2>
-            <p className="text-gray-600 text-sm sm:text-base">투자 종류별 수익 분배 결과를 확인하세요</p>
+            <p className="text-gray-600 text-sm sm:text-base">투자금 종류별 수익 분배 결과를 확인하세요</p>
           </div>
           <div className="hidden sm:block">
             <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center">
@@ -184,7 +184,7 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ result }) => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v6a2 2 0 002 2h2m0 0V9a2 2 0 012-2h2a2 2 0 012 2v6a2 2 0 01-2 2H9m0 0v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2h2m0 0V9a2 2 0 012-2h2a2 2 0 012 2v6a2 2 0 01-2 2H9V5z" />
             </svg>
           </div>
-          투자금 종별 상세 결과
+          투자금 종류별 상세 결과
         </h3>
         
         {/* 모바일: 카드 형식 */}

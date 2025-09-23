@@ -14,7 +14,7 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios }) => {
   // 수익률별 시나리오 차트 데이터
   const scenarioData = scenarios.map(scenario => {
     const baseData = {
-      returnRate: `${scenario.returnRate}%`,
+      returnRate: `${scenario.returnRate.toFixed(1)}%`,
       returnRateNum: scenario.returnRate,
       totalCumulativeReturn: scenario.result.totalCumulativeReturn,
       totalReturn: scenario.result.totalReturn,
@@ -60,11 +60,8 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios }) => {
               <XAxis 
                 dataKey="returnRate" 
                 tick={{ fontSize: 10 }}
-                interval={4}
+                interval="preserveStartEnd"
                 tickFormatter={(value) => value}
-                domain={['dataMin', 'dataMax']}
-                type="category"
-                allowDuplicatedCategory={false}
               />
               <YAxis 
                 tick={{ fontSize: 10 }}
@@ -146,7 +143,7 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios }) => {
 
       {/* 종별 평가액 변동 분석 */}
       <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
-        <h3 className="text-base sm:text-xl font-semibold text-gray-800 mb-3 sm:mb-4">종별 평가액 변동 분석</h3>
+        <h3 className="text-base sm:text-xl font-semibold text-gray-800 mb-3 sm:mb-4">투자금 종류별 평가액 변동 분석</h3>
         <div className="h-64 sm:h-80">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={scenarioData}>
@@ -154,11 +151,8 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios }) => {
               <XAxis 
                 dataKey="returnRate" 
                 tick={{ fontSize: 10 }}
-                interval={4}
+                interval="preserveStartEnd"
                 tickFormatter={(value) => value}
-                domain={['dataMin', 'dataMax']}
-                type="category"
-                allowDuplicatedCategory={false}
               />
               <YAxis 
                 tick={{ fontSize: 10 }}

@@ -23,7 +23,7 @@ function App() {
           // 다양한 만기 수익률 시나리오 생성 (-20%부터 40%까지, 0.5% 간격)
           const returnRates = [];
           for (let rate = -20; rate <= 40; rate += 0.5) {
-            returnRates.push(Math.round(rate * 10) / 10); // 소수점 정밀도 보정
+            returnRates.push(parseFloat(rate.toFixed(1))); // 소수점 정밀도 보정
           }
       
       const simulationScenarios = generateSimulationScenarios(
@@ -100,18 +100,12 @@ function App() {
                 </div>
               )}
 
-              {/* 결과 카드 */}
-              <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                <ResultDisplay result={result} />
-              </div>
+              {/* 결과 표시 */}
+              <ResultDisplay result={result} />
 
-              {/* 차트 카드 */}
+              {/* 차트 표시 */}
               {scenarios.length > 0 && (
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                  <div className="p-6 border-b border-gray-100">
-                    <h2 className="text-xl font-bold text-gray-900">시각화 분석</h2>
-                    <p className="text-gray-600 text-sm mt-1">수익률별 시나리오 분석 및 비교</p>
-                  </div>
+                <div className="mt-6">
                   <Charts scenarios={scenarios} />
                 </div>
               )}
