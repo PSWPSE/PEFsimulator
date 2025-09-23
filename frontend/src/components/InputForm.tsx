@@ -629,16 +629,16 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, defaultValues })
             </div>
           </div>
 
-          {/* 만기 수익률 */}
+          {/* 달성 수익률 */}
           <div className="bg-gray-50/50 rounded-lg p-3 border border-gray-200">
             <label className="block text-xs font-medium text-gray-700 mb-2">
-              만기 수익률 (총 수익률 %)
+              달성 수익률 (누적 수익률 %)
             </label>
             <input
               type="number"
               step="0.1"
               {...register('simulationReturn', { 
-                required: '만기 수익률을 입력해주세요',
+                required: '달성 수익률을 입력해주세요',
                 valueAsNumber: true,
                 validate: (value) => {
                   if (isNaN(value) || !isFinite(value)) {
