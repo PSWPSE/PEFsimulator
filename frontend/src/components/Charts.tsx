@@ -88,28 +88,30 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios, inputValues }) => {
                 }}
                 labelFormatter={(label) => `만기: ${label}`}
                 contentStyle={{
-                  backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                  border: '1px solid #e5e7eb',
-                  borderRadius: '6px',
-                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-                  padding: '8px 12px',
-                  fontSize: '11px',
-                  lineHeight: '1.3',
-                  minWidth: 'auto',
-                  maxWidth: '200px'
+                  backgroundColor: 'rgba(255, 255, 255, 0.98)',
+                  border: '1px solid #d1d5db',
+                  borderRadius: '8px',
+                  boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                  padding: '12px 16px',
+                  fontSize: '13px',
+                  lineHeight: '1.4',
+                  minWidth: '120px',
+                  maxWidth: '250px'
                 }}
                 labelStyle={{
-                  color: '#374151',
-                  fontSize: '10px',
-                  fontWeight: '600',
-                  marginBottom: '2px'
+                  color: '#1f2937',
+                  fontSize: '12px',
+                  fontWeight: '700',
+                  marginBottom: '4px'
                 }}
                 itemStyle={{
-                  color: '#6b7280',
-                  fontSize: '10px',
-                  padding: '1px 0'
+                  fontSize: '12px',
+                  padding: '2px 0',
+                  fontWeight: '600'
                 }}
                 cursor={{ stroke: '#e5e7eb', strokeWidth: 1, strokeDasharray: '3 3' }}
+                position={{ x: -10, y: -10 }}
+                offset={10}
               />
               <Legend 
                 wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }}
@@ -242,28 +244,30 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios, inputValues }) => {
                 }}
                 labelFormatter={(label) => `만기: ${label}`}
                 contentStyle={{
-                  backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                  border: '1px solid #e5e7eb',
-                  borderRadius: '6px',
-                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-                  padding: '8px 12px',
-                  fontSize: '11px',
-                  lineHeight: '1.3',
-                  minWidth: 'auto',
-                  maxWidth: '200px'
+                  backgroundColor: 'rgba(255, 255, 255, 0.98)',
+                  border: '1px solid #d1d5db',
+                  borderRadius: '8px',
+                  boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                  padding: '12px 16px',
+                  fontSize: '13px',
+                  lineHeight: '1.4',
+                  minWidth: '120px',
+                  maxWidth: '250px'
                 }}
                 labelStyle={{
-                  color: '#374151',
-                  fontSize: '10px',
-                  fontWeight: '600',
-                  marginBottom: '2px'
+                  color: '#1f2937',
+                  fontSize: '12px',
+                  fontWeight: '700',
+                  marginBottom: '4px'
                 }}
                 itemStyle={{
-                  color: '#6b7280',
-                  fontSize: '10px',
-                  padding: '1px 0'
+                  fontSize: '12px',
+                  padding: '2px 0',
+                  fontWeight: '600'
                 }}
                 cursor={{ fill: 'rgba(0, 0, 0, 0.05)' }}
+                position={{ x: -10, y: -10 }}
+                offset={10}
               />
               <Legend 
                 wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }}
