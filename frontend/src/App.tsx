@@ -54,7 +54,7 @@ function App() {
       <header className="bg-white/95 backdrop-blur-sm shadow-sm border-b border-gray-200 sticky top-0 z-20">
         <div className="max-w-7xl mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
-            <div>
+      <div>
               <h1 className="text-xl font-bold text-gray-900 tracking-tight">
                 PEF 투자 수익 배분 시뮬레이터
               </h1>
@@ -152,7 +152,7 @@ function App() {
                 </div>
               </div>
             </div>
-          </div>
+      </div>
         )}
       </main>
 
@@ -161,8 +161,8 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 py-4">
           <p className="text-center text-gray-500 text-xs">
             © 2024 PEF 투자 시뮬레이터. 투자 결정 시 전문가와 상담하시기 바랍니다.
-          </p>
-        </div>
+        </p>
+      </div>
       </footer>
     </div>
   );
