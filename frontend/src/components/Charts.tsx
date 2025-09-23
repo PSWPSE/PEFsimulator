@@ -36,6 +36,7 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios, inputValues }) => {
       dynamicData[`${typeResult.id}Value`] = typeResult.totalValue;
     });
     
+    
     // 호환성을 위한 기존 필드들도 유지
     return {
       ...baseData,
@@ -75,25 +76,15 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios, inputValues }) => {
               />
               <Tooltip 
                 formatter={(value: number, name: string) => {
-                  let label = '';
-                  if (name === 'totalCumulativeReturn') {
-                    label = '전체';
-                  } else {
-                    // 동적으로 투자 종류 라벨 찾기
-                    const typeResult = investmentTypes.find(type => 
-                      name === `${type.id}CumulativeReturn`
-                    );
-                    if (typeResult) {
-                      label = typeResult.name;
-                    } else {
-                      // 기존 호환성 처리
-                      if (name === 'type1CumulativeReturn') label = '1종';
-                      else if (name === 'type2CumulativeReturn') label = '2종';
-                      else if (name === 'type3CumulativeReturn') label = '3종';
-                    }
+                  // Recharts는 Line 컴포넌트의 name prop 값을 전달합니다
+                  let label = name;
+                  
+                  // name prop에서 ' 누적 수익률' 제거하여 깔끔한 라벨 생성
+                  if (name.includes(' 누적 수익률')) {
+                    label = name.replace(' 누적 수익률', '');
                   }
                   
-                  return [`${label}: ${value.toFixed(2)}%`, ''];
+                  return [`${label}: ${value.toFixed(2)}%`];
                 }}
                 labelFormatter={(label) => `만기 수익률: ${label}`}
               />
@@ -209,21 +200,15 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios, inputValues }) => {
               />
               <Tooltip 
                 formatter={(value: number, name: string) => {
-                  let label = '';
-                  // 동적으로 투자 종류 라벨 찾기
-                  const typeResult = investmentTypes.find(type => 
-                    name === `${type.id}Value`
-                  );
-                  if (typeResult) {
-                    label = typeResult.name;
-                  } else {
-                    // 기존 호환성 처리
-                    if (name === 'type1Value') label = '1종';
-                    else if (name === 'type2Value') label = '2종';
-                    else if (name === 'type3Value') label = '3종';
+                  // Recharts는 Bar 컴포넌트의 name prop 값을 전달합니다
+                  let label = name;
+                  
+                  // name prop에서 ' 평가액' 제거하여 깔끔한 라벨 생성
+                  if (name.includes(' 평가액')) {
+                    label = name.replace(' 평가액', '');
                   }
                   
-                  return [`${label}: ${formatCurrency(value)}`, ''];
+                  return [`${label}: ${formatCurrency(value)}`];
                 }}
                 labelFormatter={(label) => `만기 수익률: ${label}`}
               />
