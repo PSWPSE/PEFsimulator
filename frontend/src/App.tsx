@@ -71,18 +71,18 @@ function App() {
       </header>
 
       {/* 메인 컨텐츠 - 반응형 레이아웃 */}
-      <main className="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
-        <div className={`${result ? 'space-y-6 lg:grid lg:grid-cols-3 lg:gap-6 lg:space-y-0' : 'max-w-4xl mx-auto'} transition-all duration-300`}>
+      <main className={`max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 ${result ? 'lg:h-[calc(100vh-6rem)] lg:flex lg:gap-6' : ''}`}>
+        <div className={`${result ? 'lg:w-1/3 lg:flex-shrink-0' : 'max-w-4xl mx-auto'} transition-all duration-300`}>
           {/* 입력 폼 */}
-          <div className={`${result ? 'lg:col-span-1' : ''}`}>
-            <div className={`${result ? 'lg:sticky lg:top-24' : ''}`}>
-              <InputForm onSubmit={handleSubmit} />
-            </div>
+          <div className={`${result ? 'lg:h-full lg:overflow-y-auto lg:pr-2 scrollbar-thin' : ''}`}>
+            <InputForm onSubmit={handleSubmit} />
           </div>
+        </div>
 
-          {/* 결과 및 차트 영역 */}
-          {result && (
-            <div className="lg:col-span-2 space-y-4 sm:space-y-6">
+        {/* 결과 및 차트 영역 */}
+        {result && (
+          <div className="mt-6 lg:mt-0 lg:flex-1 lg:h-full lg:overflow-y-auto lg:pl-2 scrollbar-thin">
+            <div className="space-y-4 sm:space-y-6">
               {/* 오류 메시지 */}
               {error && (
                 <div className="bg-red-50 border-l-4 border-red-400 rounded-r-lg p-4">
@@ -110,8 +110,8 @@ function App() {
                 </div>
               )}
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
         {/* 결과가 없을 때 오류 메시지 */}
         {!result && error && (
