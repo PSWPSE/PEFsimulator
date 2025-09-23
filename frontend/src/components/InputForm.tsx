@@ -228,9 +228,9 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, defaultValues })
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 px-6 py-4 border-b border-gray-100">
-        <h2 className="text-lg font-bold text-gray-900">투자 조건 설정</h2>
-        <p className="text-gray-600 text-sm mt-1">투자 종류별 금액과 분배 조건을 설정하세요</p>
+      <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4 border-b border-blue-800">
+        <h2 className="text-lg font-bold text-white">투자 조건 설정</h2>
+        <p className="text-blue-100 text-sm mt-1">투자 종류별 금액과 분배 조건을 설정하세요</p>
       </div>
       
       <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-5">
@@ -241,7 +241,7 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, defaultValues })
             <button
               type="button"
               onClick={addInvestmentType}
-              className="px-3 py-1.5 bg-blue-600 text-white text-xs rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+              className="px-3 py-1.5 bg-orange-500 text-white text-xs rounded-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors"
             >
               + 종류 추가
             </button>
@@ -441,7 +441,7 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, defaultValues })
               </div>
               
               {/* 전체 구간 분배율 합계 */}
-              <div className="mt-3 p-2 bg-blue-50 rounded border border-blue-200">
+              <div className="mt-3 p-2 bg-orange-50 rounded border border-orange-200">
                 <p className="text-sm text-gray-600">
                   <strong>분배율 합계:</strong> {
                     (() => {
@@ -465,7 +465,7 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, defaultValues })
                   <button
                     type="button"
                     onClick={addDistributionRange}
-                    className="px-3 py-1 bg-green-600 text-white text-sm rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+                    className="px-3 py-1 bg-orange-500 text-white text-sm rounded-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-400"
                   >
                     + 범위 추가
                   </button>
@@ -532,7 +532,7 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, defaultValues })
                       {/* 삭제 버튼과 분배율 합계를 한 줄에 */}
                       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                         {/* 범위별 분배율 합계 표시 */}
-                        <div className="p-2 bg-blue-50 rounded border border-blue-200 flex-1">
+                        <div className="p-2 bg-orange-50 rounded border border-orange-200 flex-1">
                           <p className="text-sm text-gray-600">
                             <strong>분배율 합계:</strong> {
                               (() => {
@@ -658,7 +658,7 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, defaultValues })
 
         <button
           type="submit"
-          className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 px-6 rounded-xl hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 font-medium transition-all duration-200 shadow-sm hover:shadow-md text-sm"
+          className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 px-6 rounded-xl hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 font-medium transition-all duration-200 shadow-sm hover:shadow-md text-sm"
         >
           <span className="flex items-center justify-center">
             <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

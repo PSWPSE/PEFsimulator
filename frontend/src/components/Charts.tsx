@@ -112,7 +112,7 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios }) => {
               />
               {/* 동적으로 각 투자 종류의 Line 생성 */}
               {investmentTypes.map((type, index) => {
-                const colors = ['#3B82F6', '#10B981', '#F59E0B', '#8B5CF6', '#EF4444', '#06B6D4', '#84CC16'];
+                const colors = ['#2563EB', '#F97316', '#1D4ED8', '#EA580C', '#3B82F6', '#FB923C', '#1E40AF'];
                 return (
                   <Line 
                     key={type.id}
@@ -129,7 +129,7 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios }) => {
               <Line 
                 type="monotone" 
                 dataKey="totalCumulativeReturn" 
-                stroke="#EF4444" 
+                stroke="#F97316" 
                 strokeWidth={3}
                 strokeDasharray="5 5"
                 dot={false}
@@ -203,7 +203,7 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios }) => {
               />
               {/* 동적으로 각 투자 종류의 Bar 생성 */}
               {investmentTypes.map((type, index) => {
-                const colors = ['#3B82F6', '#10B981', '#F59E0B', '#8B5CF6', '#EF4444', '#06B6D4', '#84CC16'];
+                const colors = ['#2563EB', '#F97316', '#1D4ED8', '#EA580C', '#3B82F6', '#FB923C', '#1E40AF'];
                 return (
                   <Bar 
                     key={type.id}
@@ -229,7 +229,7 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios }) => {
                 <th className="border border-gray-300 px-2 sm:px-3 py-2 text-left font-semibold text-xs sm:text-sm w-24">전체</th>
                 {scenarioData.filter((_, index) => index % 5 === 0).map((scenario, index) => (
                   <th key={index} className={`border border-gray-300 px-2 sm:px-3 py-2 text-center font-semibold text-xs sm:text-sm w-20 ${
-                    scenario.returnRateNum === 15 ? 'text-blue-600' : 
+                    scenario.returnRateNum === 15 ? 'text-orange-600' : 
                     scenario.returnRateNum < 0 ? 'text-red-600' : ''
                   }`}>
                     {scenario.returnRate}

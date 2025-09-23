@@ -27,8 +27,8 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ result }) => {
       </div>
       
       {/* 전체 요약 */}
-      <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 rounded-2xl p-6 sm:p-8 border border-blue-100 shadow-lg">
-        <h3 className="text-lg sm:text-xl font-bold text-blue-900 mb-6 flex items-center">
+      <div className="bg-gradient-to-br from-blue-50 via-blue-100 to-blue-200 rounded-2xl p-6 sm:p-8 border border-blue-200 shadow-lg">
+        <h3 className="text-lg sm:text-xl font-bold text-blue-800 mb-6 flex items-center">
           <div className="w-6 h-6 bg-blue-500 rounded-lg flex items-center justify-center mr-3">
             <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
@@ -57,7 +57,7 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ result }) => {
               </div>
             </div>
             <p className="text-sm text-gray-600 mb-1">총 평가액</p>
-            <p className="text-lg sm:text-xl font-bold text-blue-600">{formatCurrency(result.totalValue)}</p>
+            <p className="text-lg sm:text-xl font-bold text-blue-700">{formatCurrency(result.totalValue)}</p>
           </div>
           <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4 border border-white/20">
             <div className="flex items-center justify-center mb-2">
@@ -90,7 +90,7 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ result }) => {
       <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg border border-gray-100">
         <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-6 flex items-center">
           <div className={`w-6 h-6 rounded-lg flex items-center justify-center mr-3 ${
-            result.scenarioType === 'loss' ? 'bg-red-500' : 'bg-green-500'
+            result.scenarioType === 'loss' ? 'bg-red-500' : 'bg-orange-500'
           }`}>
             <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {result.scenarioType === 'loss' ? (
@@ -161,16 +161,16 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ result }) => {
               </div>
               <p className="text-lg sm:text-2xl font-bold text-gray-800 text-center sm:text-left">{formatCurrency(result.thresholdProfit)}</p>
             </div>
-            <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-3 sm:p-5 border border-green-200 shadow-sm">
+            <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-3 sm:p-5 border border-orange-200 shadow-sm">
               <div className="flex flex-col sm:flex-row items-center sm:items-center mb-2 sm:mb-3">
-                <div className="w-6 h-6 sm:w-8 sm:h-8 bg-green-500 rounded-lg flex items-center justify-center mb-1 sm:mb-0">
+                <div className="w-6 h-6 sm:w-8 sm:h-8 bg-orange-500 rounded-lg flex items-center justify-center mb-1 sm:mb-0">
                   <svg className="w-3 h-3 sm:w-4 sm:h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                   </svg>
                 </div>
-                <h4 className="font-semibold text-green-800 text-xs sm:text-base sm:ml-3 text-center sm:text-left">초과 수익금</h4>
+                <h4 className="font-semibold text-orange-800 text-xs sm:text-base sm:ml-3 text-center sm:text-left">초과 수익금</h4>
               </div>
-              <p className="text-lg sm:text-2xl font-bold text-green-600 text-center sm:text-left">{formatCurrency(result.excessProfit)}</p>
+              <p className="text-lg sm:text-2xl font-bold text-orange-600 text-center sm:text-left">{formatCurrency(result.excessProfit)}</p>
             </div>
           </div>
         )}
@@ -192,13 +192,13 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ result }) => {
           {result.typeResults.map((typeResult, index) => (
             <div key={typeResult.id} className={`bg-gradient-to-br rounded-xl p-5 shadow-sm border ${
               index === 0 ? 'from-blue-50 to-blue-100 border-blue-200' :
-              index === 1 ? 'from-green-50 to-green-100 border-green-200' :
+              index === 1 ? 'from-orange-50 to-orange-100 border-orange-200' :
               'from-purple-50 to-purple-100 border-purple-200'
             }`}>
               <div className="flex items-center mb-4">
                 <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
                   index === 0 ? 'bg-blue-500' :
-                  index === 1 ? 'bg-green-500' :
+                  index === 1 ? 'bg-orange-500' :
                   'bg-purple-500'
                 }`}>
                   <span className="text-white font-bold text-sm">{typeResult.name}</span>
