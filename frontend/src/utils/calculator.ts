@@ -96,7 +96,8 @@ export function calculateInvestmentResult(input: InvestmentInput): InvestmentRes
   // 1종 기준수익률 계산
   const TYPE1_HURDLE_RATE = (thresholdReturn / 100) * investmentPeriod;
   
-  // 시뮬레이션 수익률 기반 총 수익금/손실금
+  // 사용자가 입력한 '달성 수익률(누적 수익률%)'을 기반으로 총 수익금/손실금 계산
+  // simulationReturn: 사용자 입력값 (예: 20% 입력 시 20)
   const totalProfit = roundTo(totalInvestment * (simulationReturn / 100));
   
   // 1종 기준 수익금
