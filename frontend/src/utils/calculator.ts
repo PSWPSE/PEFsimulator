@@ -324,11 +324,11 @@ export function formatCurrency(amount: number): string {
   // 억원 단위로 변환 (100,000,000으로 나누기)
   const amountInEokWon = amount / 100000000;
   
-  // 1억원 미만인 경우 소수점 표시, 1억원 이상인 경우 정수로 표시
+  // 1억원 미만인 경우 소수점 2자리, 1억원 이상인 경우 소수점 1자리로 반올림
   if (Math.abs(amountInEokWon) < 1) {
-    return `${amountInEokWon.toFixed(2)}억원`;
+    return `${Math.round(amountInEokWon * 100) / 100}억원`;
   } else {
-    return `${amountInEokWon.toFixed(1)}억원`;
+    return `${Math.round(amountInEokWon * 10) / 10}억원`;
   }
 }
 
@@ -338,7 +338,11 @@ export function formatPercentage(rate: number, decimals: number = 2): string {
     return '0.00%';
   }
   
-  return `${rate.toFixed(decimals)}%`;
+  // 반올림 적용
+  const multiplier = Math.pow(10, decimals);
+  const rounded = Math.round(rate * multiplier) / multiplier;
+  
+  return `${rounded.toFixed(decimals)}%`;
 }
 
 export function formatNumber(num: number): string {

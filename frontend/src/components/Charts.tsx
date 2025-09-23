@@ -84,9 +84,32 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios, inputValues }) => {
                     label = name.replace(' 누적 수익률', '');
                   }
                   
-                  return [`${label}: ${value.toFixed(2)}%`];
+                  return [`${label}: ${Math.round(value * 100) / 100}%`];
                 }}
-                labelFormatter={(label) => `만기 수익률: ${label}`}
+                labelFormatter={(label) => `만기: ${label}`}
+                contentStyle={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                  border: '1px solid #e5e7eb',
+                  borderRadius: '6px',
+                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                  padding: '8px 12px',
+                  fontSize: '11px',
+                  lineHeight: '1.3',
+                  minWidth: 'auto',
+                  maxWidth: '200px'
+                }}
+                labelStyle={{
+                  color: '#374151',
+                  fontSize: '10px',
+                  fontWeight: '600',
+                  marginBottom: '2px'
+                }}
+                itemStyle={{
+                  color: '#6b7280',
+                  fontSize: '10px',
+                  padding: '1px 0'
+                }}
+                cursor={{ stroke: '#e5e7eb', strokeWidth: 1, strokeDasharray: '3 3' }}
               />
               <Legend 
                 wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }}
@@ -217,7 +240,30 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios, inputValues }) => {
                   
                   return [`${label}: ${formatCurrency(value)}`];
                 }}
-                labelFormatter={(label) => `만기 수익률: ${label}`}
+                labelFormatter={(label) => `만기: ${label}`}
+                contentStyle={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                  border: '1px solid #e5e7eb',
+                  borderRadius: '6px',
+                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                  padding: '8px 12px',
+                  fontSize: '11px',
+                  lineHeight: '1.3',
+                  minWidth: 'auto',
+                  maxWidth: '200px'
+                }}
+                labelStyle={{
+                  color: '#374151',
+                  fontSize: '10px',
+                  fontWeight: '600',
+                  marginBottom: '2px'
+                }}
+                itemStyle={{
+                  color: '#6b7280',
+                  fontSize: '10px',
+                  padding: '1px 0'
+                }}
+                cursor={{ fill: 'rgba(0, 0, 0, 0.05)' }}
               />
               <Legend 
                 wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }}
