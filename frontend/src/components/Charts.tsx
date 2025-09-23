@@ -102,8 +102,8 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios, inputValues }) => {
                     dataKey={`${type.id}CumulativeReturn`} 
                     stroke={colors[index % colors.length]} 
                     strokeWidth={2.5}
-                    dot={{ r: 2, strokeWidth: 1 }}
-                    activeDot={{ r: 4, strokeWidth: 2 }}
+                    dot={false}
+                    activeDot={{ r: 2.5, strokeWidth: 1 }}
                     name={`${type.name} 누적 수익률`}
                   />
                 );
@@ -114,8 +114,8 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios, inputValues }) => {
                 stroke="#EF4444" 
                 strokeWidth={3}
                 strokeDasharray="5 5"
-                dot={{ r: 2.5, strokeWidth: 1.5 }}
-                activeDot={{ r: 5, strokeWidth: 2 }}
+                dot={false}
+                activeDot={{ r: 2.5, strokeWidth: 1 }}
                 name="전체 누적 수익률"
               />
             </LineChart>
