@@ -146,10 +146,6 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios, inputValues }) => {
             </LineChart>
           </ResponsiveContainer>
         </div>
-        <div className="mt-3 sm:mt-4 text-xs sm:text-sm text-gray-600 space-y-1">
-          <p>• 누적 수익률: 투자기간 동안의 총 수익률 (주요 지표)</p>
-          <p>• X축: 만기 수익률 (투자기간 만료 시점의 총 수익률)</p>
-        </div>
       </div>
 
       {/* 종별 평가액 변동 분석 */}
@@ -228,10 +224,6 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios, inputValues }) => {
             </BarChart>
           </ResponsiveContainer>
         </div>
-        <div className="mt-4 text-sm text-gray-600">
-          <p>• 수익률 변화에 따른 각 종별 평가액의 변동을 누적 합산 막대그래프로 표시</p>
-          <p>• 손실 구간에서는 워터폴 구조(2종,3종→1종)에 따른 평가액 감소 확인 가능</p>
-        </div>
       </div>
 
       {/* 수익률별 투자 시나리오 분석 */}
@@ -275,23 +267,6 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios, inputValues }) => {
               ))}
             </tbody>
           </table>
-        </div>
-        
-        <div className="text-xs sm:text-sm text-gray-600 space-y-1 mb-3 sm:mb-4">
-          <p><strong>비고:</strong></p>
-          <p>• 1종 기준 수익률: 연 {inputValues.thresholdReturn}% ({inputValues.investmentPeriod}년간 {(inputValues.thresholdReturn * inputValues.investmentPeriod).toFixed(1)}%)</p>
-          <p>• 초과수익 분배율: 1종 {inputValues.type1ExcessRate}%, 2종 {inputValues.type2ExcessRate}%, 3종 {inputValues.type3ExcessRate}%</p>
-          <p>• 손실 배분 순서: 2종, 3종 → 1종 순으로 워터폴 구조 적용</p>
-        </div>
-
-        <div className="bg-blue-50 rounded-lg p-3 sm:p-4 text-xs sm:text-sm">
-          <p><strong>1종 투자자 특징</strong></p>
-          <p className="mt-1">
-            <strong>우선권:</strong> 연 {inputValues.thresholdReturn}%의 기준 수익률까지 우선 분배받으며, 손실 시에도 2종/3종 손실 후 적용
-          </p>
-          <p className="mt-1">
-            <strong>초과수익:</strong> 기준 수익률 초과 시 초과수익의 {inputValues.type1ExcessRate}%를 추가 분배받음
-          </p>
         </div>
       </div>
     </div>
