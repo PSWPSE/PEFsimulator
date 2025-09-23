@@ -152,67 +152,6 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios, inputValues }) => {
         </div>
       </div>
 
-      {/* 수익률별 투자 시나리오 분석 */}
-      <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
-        <h3 className="text-base sm:text-xl font-semibold text-gray-800 mb-3 sm:mb-4">수익률별 투자 시나리오 분석</h3>
-        <div className="overflow-x-auto mb-4 sm:mb-6">
-          <table className="w-full border-collapse border border-gray-300 text-xs sm:text-sm">
-            <thead>
-              <tr className="bg-gray-100">
-                <th className="border border-gray-300 px-2 sm:px-3 py-2 text-left font-semibold text-xs sm:text-sm">전체<br/>만기 수익률</th>
-                {scenarioData.filter((_, index) => index % 5 === 0).map((scenario, index) => (
-                  <th key={index} className={`border border-gray-300 px-2 sm:px-3 py-2 text-center font-semibold text-xs sm:text-sm ${
-                    scenario.returnRateNum === 15 ? 'text-blue-600' : 
-                    scenario.returnRateNum < 0 ? 'text-red-600' : ''
-                  }`}>
-                    {scenario.returnRate}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {/* 동적으로 각 투자 종류의 행 생성 */}
-              {investmentTypes.map((type) => (
-                <tr key={type.id}>
-                  <td className="border border-gray-300 px-3 py-2 font-medium bg-gray-50">
-                    {type.name}
-                  </td>
-                  {scenarioData.filter((_, index) => index % 5 === 0).map((scenario, index) => {
-                    const cumulativeReturn = scenario[`${type.id}CumulativeReturn`] || 0;
-                    const colorClass = type.isBaseType 
-                      ? (cumulativeReturn >= 0 ? 'text-black' : 'text-orange-600')
-                      : (cumulativeReturn >= 0 ? 'text-black' : 'text-red-600');
-                    
-                    return (
-                      <td key={index} className={`border border-gray-300 px-3 py-2 text-center ${colorClass}`}>
-                        {cumulativeReturn >= -99 ? cumulativeReturn.toFixed(1) : type.isBaseType ? '-' : '-100.0'}
-                      </td>
-                    );
-                  })}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        
-        <div className="text-xs sm:text-sm text-gray-600 space-y-1 mb-3 sm:mb-4">
-          <p><strong>비고:</strong></p>
-          <p>• 1종 기준 수익률: 연 {inputValues.thresholdReturn}% ({inputValues.investmentPeriod}년간 {(inputValues.thresholdReturn * inputValues.investmentPeriod).toFixed(1)}%)</p>
-          <p>• 초과수익 분배율: 1종 {inputValues.type1ExcessRate}%, 2종 {inputValues.type2ExcessRate}%, 3종 {inputValues.type3ExcessRate}%</p>
-          <p>• 손실 배분 순서: 2종, 3종 → 1종 순으로 워터폴 구조 적용</p>
-        </div>
-
-        <div className="bg-blue-50 rounded-lg p-3 sm:p-4 text-xs sm:text-sm">
-          <p><strong>1종 투자자 특징</strong></p>
-          <p className="mt-1">
-            <strong>우선권:</strong> 연 {inputValues.thresholdReturn}%의 기준 수익률까지 우선 분배받으며, 손실 시에도 2종/3종 손실 후 적용
-          </p>
-          <p className="mt-1">
-            <strong>초과수익:</strong> 기준 수익률 초과 시 초과수익의 {inputValues.type1ExcessRate}%를 추가 분배받음
-          </p>
-        </div>
-      </div>
-
       {/* 종별 평가액 변동 분석 */}
       <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
         <h3 className="text-base sm:text-xl font-semibold text-gray-800 mb-3 sm:mb-4">종별 평가액 변동 분석</h3>
@@ -292,6 +231,67 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios, inputValues }) => {
         <div className="mt-4 text-sm text-gray-600">
           <p>• 수익률 변화에 따른 각 종별 평가액의 변동을 누적 합산 막대그래프로 표시</p>
           <p>• 손실 구간에서는 워터폴 구조(2종,3종→1종)에 따른 평가액 감소 확인 가능</p>
+        </div>
+      </div>
+
+      {/* 수익률별 투자 시나리오 분석 */}
+      <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
+        <h3 className="text-base sm:text-xl font-semibold text-gray-800 mb-3 sm:mb-4">수익률별 투자 시나리오 분석</h3>
+        <div className="overflow-x-auto mb-4 sm:mb-6">
+          <table className="w-full border-collapse border border-gray-300 text-xs sm:text-sm">
+            <thead>
+              <tr className="bg-gray-100">
+                <th className="border border-gray-300 px-2 sm:px-3 py-2 text-left font-semibold text-xs sm:text-sm">전체<br/>만기 수익률</th>
+                {scenarioData.filter((_, index) => index % 5 === 0).map((scenario, index) => (
+                  <th key={index} className={`border border-gray-300 px-2 sm:px-3 py-2 text-center font-semibold text-xs sm:text-sm ${
+                    scenario.returnRateNum === 15 ? 'text-blue-600' : 
+                    scenario.returnRateNum < 0 ? 'text-red-600' : ''
+                  }`}>
+                    {scenario.returnRate}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {/* 동적으로 각 투자 종류의 행 생성 */}
+              {investmentTypes.map((type) => (
+                <tr key={type.id}>
+                  <td className="border border-gray-300 px-3 py-2 font-medium bg-gray-50">
+                    {type.name}
+                  </td>
+                  {scenarioData.filter((_, index) => index % 5 === 0).map((scenario, index) => {
+                    const cumulativeReturn = scenario[`${type.id}CumulativeReturn`] || 0;
+                    const colorClass = type.isBaseType 
+                      ? (cumulativeReturn >= 0 ? 'text-black' : 'text-orange-600')
+                      : (cumulativeReturn >= 0 ? 'text-black' : 'text-red-600');
+                    
+                    return (
+                      <td key={index} className={`border border-gray-300 px-3 py-2 text-center ${colorClass}`}>
+                        {cumulativeReturn >= -99 ? cumulativeReturn.toFixed(1) : type.isBaseType ? '-' : '-100.0'}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        
+        <div className="text-xs sm:text-sm text-gray-600 space-y-1 mb-3 sm:mb-4">
+          <p><strong>비고:</strong></p>
+          <p>• 1종 기준 수익률: 연 {inputValues.thresholdReturn}% ({inputValues.investmentPeriod}년간 {(inputValues.thresholdReturn * inputValues.investmentPeriod).toFixed(1)}%)</p>
+          <p>• 초과수익 분배율: 1종 {inputValues.type1ExcessRate}%, 2종 {inputValues.type2ExcessRate}%, 3종 {inputValues.type3ExcessRate}%</p>
+          <p>• 손실 배분 순서: 2종, 3종 → 1종 순으로 워터폴 구조 적용</p>
+        </div>
+
+        <div className="bg-blue-50 rounded-lg p-3 sm:p-4 text-xs sm:text-sm">
+          <p><strong>1종 투자자 특징</strong></p>
+          <p className="mt-1">
+            <strong>우선권:</strong> 연 {inputValues.thresholdReturn}%의 기준 수익률까지 우선 분배받으며, 손실 시에도 2종/3종 손실 후 적용
+          </p>
+          <p className="mt-1">
+            <strong>초과수익:</strong> 기준 수익률 초과 시 초과수익의 {inputValues.type1ExcessRate}%를 추가 분배받음
+          </p>
         </div>
       </div>
     </div>
