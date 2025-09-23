@@ -459,9 +459,9 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, defaultValues })
 
             {/* 범위별 분배율 */}
             {watchedValues.useRangeBasedDistribution && (
-              <div>
-                <div className="flex justify-between items-center mb-4">
-                  <h4 className="text-md font-semibold text-gray-800">누적수익률 범위별 분배율</h4>
+              <div className="bg-white rounded-lg p-3 border border-gray-200">
+                <div className="flex justify-between items-center mb-3">
+                  <h4 className="text-sm sm:text-md font-semibold text-gray-800">누적수익률 범위별 분배율</h4>
                   <button
                     type="button"
                     onClick={addDistributionRange}
@@ -471,100 +471,101 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, defaultValues })
                   </button>
                 </div>
 
-          <div className="space-y-4">
-            {rangeFields.map((rangeField, rangeIndex) => (
-              <div key={rangeField.id} className="p-4 bg-gray-50 rounded-lg">
-                <div className="grid grid-cols-12 gap-4 items-start mb-4">
-                  {/* 범위 설정 */}
-                  <div className="col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">최소 (% 초과)</label>
-                    <input
-                      type="number"
-                      step="0.1"
-                      {...register(`distributionRanges.${rangeIndex}.minReturn`, {
-                        required: '최소값을 입력해주세요',
-                        min: { value: 0, message: '0 이상의 값을 입력해주세요' },
-                        valueAsNumber: true
-                      })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      placeholder="0"
-                    />
-                  </div>
+                <div className="space-y-4">
+                  {rangeFields.map((rangeField, rangeIndex) => (
+                    <div key={rangeField.id} className="p-3 bg-gray-50 rounded-lg border border-gray-200">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 items-start mb-3">
+                        {/* 범위 설정 */}
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">최소 (% 초과)</label>
+                          <input
+                            type="number"
+                            step="0.1"
+                            {...register(`distributionRanges.${rangeIndex}.minReturn`, {
+                              required: '최소값을 입력해주세요',
+                              min: { value: 0, message: '0 이상의 값을 입력해주세요' },
+                              valueAsNumber: true
+                            })}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                            placeholder="0"
+                          />
+                        </div>
 
-                  <div className="col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">최대 (% 이하)</label>
-                    <input
-                      type="number"
-                      step="0.1"
-                      {...register(`distributionRanges.${rangeIndex}.maxReturn`, {
-                        min: { value: 0, message: '0 이상의 값을 입력해주세요' },
-                        valueAsNumber: true,
-                        setValueAs: (value) => value === '' || value === null || value === undefined ? null : Number(value)
-                      })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      placeholder="무제한"
-                    />
-                    <p className="text-xs text-gray-500 mt-1">비워두면 무제한</p>
-                  </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">최대 (% 이하)</label>
+                          <input
+                            type="number"
+                            step="0.1"
+                            {...register(`distributionRanges.${rangeIndex}.maxReturn`, {
+                              min: { value: 0, message: '0 이상의 값을 입력해주세요' },
+                              valueAsNumber: true,
+                              setValueAs: (value) => value === '' || value === null || value === undefined ? null : Number(value)
+                            })}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                            placeholder="무제한"
+                          />
+                          <p className="text-xs text-gray-500 mt-1">비워두면 무제한</p>
+                        </div>
 
-                  {/* 종류별 분배율 */}
-                  {watchedValues.investmentTypes?.map((type) => (
-                    <div key={type.id} className="col-span-2">
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        {type.name} (%)
-                      </label>
-                      <input
-                        type="number"
-                        step="0.1"
-                        {...register(`distributionRanges.${rangeIndex}.distributions.${type.id}`, {
-                          required: '분배율을 입력해주세요',
-                          min: { value: 0, message: '0 이상의 값을 입력해주세요' },
-                          max: { value: 100, message: '100 이하의 값을 입력해주세요' },
-                          valueAsNumber: true
-                        })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="0"
-                      />
+                        {/* 종류별 분배율 */}
+                        {watchedValues.investmentTypes?.map((type) => (
+                          <div key={type.id}>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                              {type.name} (%)
+                            </label>
+                            <input
+                              type="number"
+                              step="0.1"
+                              {...register(`distributionRanges.${rangeIndex}.distributions.${type.id}`, {
+                                required: '분배율을 입력해주세요',
+                                min: { value: 0, message: '0 이상의 값을 입력해주세요' },
+                                max: { value: 100, message: '100 이하의 값을 입력해주세요' },
+                                valueAsNumber: true
+                              })}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                              placeholder="0"
+                            />
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* 삭제 버튼과 분배율 합계를 한 줄에 */}
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                        {/* 범위별 분배율 합계 표시 */}
+                        <div className="p-2 bg-blue-50 rounded border border-blue-200 flex-1">
+                          <p className="text-sm text-gray-600">
+                            <strong>분배율 합계:</strong> {
+                              (() => {
+                                const currentDistributions = watchedValues.distributionRanges?.[rangeIndex]?.distributions || {};
+                                const currentTypeIds = watchedValues.investmentTypes?.map(type => type.id) || [];
+                                return currentTypeIds
+                                  .reduce((sum, typeId) => sum + (Number(currentDistributions[typeId]) || 0), 0)
+                                  .toFixed(1);
+                              })()
+                            }%
+                          </p>
+                        </div>
+
+                        {/* 삭제 버튼 */}
+                        <button
+                          type="button"
+                          onClick={() => removeDistributionRange(rangeIndex)}
+                          disabled={rangeFields.length <= 1}
+                          className={`px-3 py-2 text-white text-sm rounded-md focus:outline-none focus:ring-2 ${
+                            rangeFields.length <= 1 
+                              ? 'bg-gray-400 cursor-not-allowed' 
+                              : 'bg-red-600 hover:bg-red-700 focus:ring-red-500'
+                          }`}
+                        >
+                          삭제
+                        </button>
+                      </div>
+
+                      {/* 숨겨진 필드 */}
+                      <input type="hidden" {...register(`distributionRanges.${rangeIndex}.id`)} value={rangeField.id} />
                     </div>
                   ))}
-
-                  {/* 삭제 버튼 */}
-                  <div className="col-span-2 flex items-end">
-                    <button
-                      type="button"
-                      onClick={() => removeDistributionRange(rangeIndex)}
-                      disabled={rangeFields.length <= 1}
-                      className={`w-full px-3 py-2 text-white text-sm rounded-md focus:outline-none focus:ring-2 ${
-                        rangeFields.length <= 1 
-                          ? 'bg-gray-400 cursor-not-allowed' 
-                          : 'bg-red-600 hover:bg-red-700 focus:ring-red-500'
-                      }`}
-                    >
-                      삭제
-                    </button>
-                  </div>
-
-                  {/* 숨겨진 필드 */}
-                  <input type="hidden" {...register(`distributionRanges.${rangeIndex}.id`)} value={rangeField.id} />
                 </div>
-
-                {/* 범위별 분배율 합계 표시 */}
-                <div className="mt-2 p-2 bg-white rounded border">
-                  <p className="text-sm text-gray-600">
-                    <strong>이 범위 분배율 합계:</strong> {
-                      (() => {
-                        const currentDistributions = watchedValues.distributionRanges?.[rangeIndex]?.distributions || {};
-                        const currentTypeIds = watchedValues.investmentTypes?.map(type => type.id) || [];
-                        return currentTypeIds
-                          .reduce((sum, typeId) => sum + (Number(currentDistributions[typeId]) || 0), 0)
-                          .toFixed(1);
-                      })()
-                    }%
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
               </div>
             )}
         </div>
