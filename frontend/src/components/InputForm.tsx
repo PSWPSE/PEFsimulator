@@ -228,9 +228,9 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, defaultValues })
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-      <div className="bg-gradient-to-r from-indigo-600 to-indigo-700 px-6 py-4 border-b border-indigo-800">
+      <div className="bg-gradient-to-r from-sky-600 to-sky-700 px-6 py-4 border-b border-sky-800">
         <h2 className="text-lg font-bold text-white">투자 조건 설정</h2>
-        <p className="text-indigo-100 text-sm mt-1">투자 종류별 금액과 분배 조건을 설정하세요</p>
+        <p className="text-sky-100 text-sm mt-1">투자 종류별 금액과 분배 조건을 설정하세요</p>
       </div>
       
       <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-5">
@@ -658,7 +658,7 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, defaultValues })
 
         <button
           type="submit"
-          className="w-full bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-3 px-6 rounded-xl hover:from-indigo-700 hover:to-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 font-medium transition-all duration-200 shadow-sm hover:shadow-md text-sm"
+          className="w-full bg-gradient-to-r from-sky-600 to-sky-700 text-white py-3 px-6 rounded-xl hover:from-sky-700 hover:to-sky-800 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 font-medium transition-all duration-200 shadow-sm hover:shadow-md text-sm"
         >
           <span className="flex items-center justify-center">
             <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
