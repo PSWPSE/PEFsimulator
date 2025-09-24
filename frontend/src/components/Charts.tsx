@@ -1,7 +1,7 @@
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from 'recharts';
 import type { SimulationScenario } from '../types/investment';
-import { formatCurrency } from '../utils/calculator';
+import { formatCurrency, getProfitColorClass } from '../utils/calculator';
 
 interface ChartsProps {
   scenarios: SimulationScenario[];
@@ -247,10 +247,7 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios }) => {
               <tr className="bg-gray-100">
                 <th className="border border-gray-300 px-2 sm:px-3 py-2 text-left font-semibold text-xs sm:text-sm w-24">전체</th>
                 {scenarioData.filter((_, index) => index % 5 === 0).map((scenario, index) => (
-                  <th key={index} className={`border border-gray-300 px-2 sm:px-3 py-2 text-center font-semibold text-xs sm:text-sm w-20 ${
-                    scenario.returnRateNum === 15 ? 'text-orange-600' : 
-                    scenario.returnRateNum < 0 ? 'text-red-600' : ''
-                  }`}>
+                  <th key={index} className={`border border-gray-300 px-2 sm:px-3 py-2 text-center font-semibold text-xs sm:text-sm w-20 ${getProfitColorClass(scenario.returnRateNum)}`}>
                     {scenario.returnRate}
                   </th>
                 ))}

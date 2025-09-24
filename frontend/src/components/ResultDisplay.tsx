@@ -1,6 +1,6 @@
 import React from 'react';
 import type { InvestmentResult } from '../types/investment';
-import { formatCurrency, formatPercentage } from '../utils/calculator';
+import { formatCurrency, formatPercentage, getProfitColorClass } from '../utils/calculator';
 
 interface ResultDisplayProps {
   result: InvestmentResult;
@@ -63,7 +63,7 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ result }) => {
                       </svg>
                     </div>
                     <p className="text-xs text-gray-600 mb-1 font-semibold">누적 수익률</p>
-                    <p className="text-sm font-bold text-slate-700">{formatPercentage(result.totalCumulativeReturn)}</p>
+                    <p className={`text-sm font-bold ${getProfitColorClass(result.totalCumulativeReturn)}`}>{formatPercentage(result.totalCumulativeReturn)}</p>
                   </div>
                 </div>
               </div>
@@ -216,7 +216,7 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ result }) => {
                   </div>
                   <div>
                     <span className="text-gray-600">누적 수익률</span>
-                    <p className={`font-bold ${typeResult.cumulativeReturn >= 0 ? 'text-slate-700' : 'text-red-600'}`}>
+                    <p className={`font-bold ${getProfitColorClass(typeResult.cumulativeReturn)}`}>
                       {formatPercentage(typeResult.cumulativeReturn)}
                     </p>
                   </div>
@@ -272,9 +272,7 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ result }) => {
                       <td className="border border-gray-300 px-4 py-3 text-right font-semibold">
                         {formatCurrency(typeResult.totalValue)}
                       </td>
-                      <td className={`border border-gray-300 px-4 py-3 text-right font-semibold ${
-                        typeResult.cumulativeReturn >= 0 ? 'text-slate-700' : 'text-red-600'
-                      }`}>
+                      <td className={`border border-gray-300 px-4 py-3 text-right font-semibold ${getProfitColorClass(typeResult.cumulativeReturn)}`}>
                         {formatPercentage(typeResult.cumulativeReturn)}
                       </td>
                     </tr>
@@ -302,9 +300,7 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ result }) => {
                     <td className="border border-gray-300 px-4 py-3 text-right">
                       {formatCurrency(result.totalValue)}
                     </td>
-                    <td className={`border border-gray-300 px-4 py-3 text-right font-semibold ${
-                      result.totalCumulativeReturn >= 0 ? 'text-slate-700' : 'text-red-600'
-                    }`}>
+                    <td className={`border border-gray-300 px-4 py-3 text-right font-semibold ${getProfitColorClass(result.totalCumulativeReturn)}`}>
                       {formatPercentage(result.totalCumulativeReturn)}
                     </td>
                   </tr>

@@ -346,6 +346,17 @@ export function formatPercentage(rate: number, decimals: number = 2): string {
   return `${rounded.toFixed(decimals)}%`;
 }
 
+// 수익률에 따른 색상 클래스 반환
+export function getProfitColorClass(value: number): string {
+  if (value > 0) {
+    return 'text-neon-green';
+  } else if (value < 0) {
+    return 'text-neon-red';
+  } else {
+    return 'text-neutral-black';
+  }
+}
+
 export function formatNumber(num: number): string {
   // NaN이나 무한대 값 처리
   if (!isFinite(num) || isNaN(num)) {
