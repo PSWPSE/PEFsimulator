@@ -112,7 +112,7 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios }) => {
               />
               {/* 동적으로 각 투자 종류의 Line 생성 */}
               {investmentTypes.map((type, index) => {
-                const colors = ['#2563EB', '#F97316', '#1D4ED8', '#EA580C', '#3B82F6', '#FB923C', '#1E40AF'];
+                const colors = ['#4F46E5', '#F97316', '#10B981', '#EF4444', '#8B5CF6', '#06B6D4', '#F59E0B'];
                 return (
                   <Line 
                     key={type.id}
@@ -129,7 +129,7 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios }) => {
               <Line 
                 type="monotone" 
                 dataKey="totalCumulativeReturn" 
-                stroke="#F97316" 
+                stroke="#DC2626" 
                 strokeWidth={3}
                 strokeDasharray="5 5"
                 dot={false}
@@ -203,7 +203,7 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios }) => {
               />
               {/* 동적으로 각 투자 종류의 Bar 생성 */}
               {investmentTypes.map((type, index) => {
-                const colors = ['#2563EB', '#F97316', '#1D4ED8', '#EA580C', '#3B82F6', '#FB923C', '#1E40AF'];
+                const colors = ['#4F46E5', '#F97316', '#10B981', '#EF4444', '#8B5CF6', '#06B6D4', '#F59E0B'];
                 return (
                   <Bar 
                     key={type.id}

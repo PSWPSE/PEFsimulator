@@ -47,21 +47,21 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-slate-100">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-slate-100">
       {/* 컴팩트 헤더 */}
-      <header className="bg-gradient-to-r from-blue-600 to-blue-700 shadow-lg border-b border-blue-800 sticky top-0 z-20">
+      <header className="bg-gradient-to-r from-indigo-600 to-indigo-700 shadow-lg border-b border-indigo-800 sticky top-0 z-20">
         <div className="max-w-7xl mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
       <div>
               <h1 className="text-xl font-bold text-white tracking-tight">
                 PEF 투자 수익 배분 시뮬레이터
               </h1>
-              <p className="text-blue-100 text-sm mt-0.5">
+              <p className="text-indigo-100 text-sm mt-0.5">
                 투자금 종류별 수익률 구조와 초과 수익 배분 시뮬레이션
               </p>
             </div>
             {result && (
-              <div className="hidden sm:flex items-center space-x-2 text-sm text-blue-100">
+              <div className="hidden sm:flex items-center space-x-2 text-sm text-indigo-100">
                 <div className="w-2 h-2 bg-orange-400 rounded-full animate-pulse"></div>
                 <span>시뮬레이션 완료</span>
               </div>
