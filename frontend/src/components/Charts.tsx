@@ -112,7 +112,7 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios }) => {
               />
               {/* 동적으로 각 투자 종류의 Line 생성 */}
               {investmentTypes.map((type, index) => {
-                const colors = ['#0284C7', '#F97316', '#10B981', '#EF4444', '#8B5CF6', '#06B6D4', '#F59E0B'];
+                const colors = ['#334155', '#F97316', '#10B981', '#EF4444', '#8B5CF6', '#06B6D4', '#F59E0B'];
                 return (
                   <Line 
                     key={type.id}
@@ -203,7 +203,7 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios }) => {
               />
               {/* 동적으로 각 투자 종류의 Bar 생성 */}
               {investmentTypes.map((type, index) => {
-                const colors = ['#0284C7', '#F97316', '#10B981', '#EF4444', '#8B5CF6', '#06B6D4', '#F59E0B'];
+                const colors = ['#334155', '#F97316', '#10B981', '#EF4444', '#8B5CF6', '#06B6D4', '#F59E0B'];
                 return (
                   <Bar 
                     key={type.id}

@@ -27,9 +27,9 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ result }) => {
       </div>
       
       {/* 전체 요약 */}
-      <div className="bg-gradient-to-br from-sky-50 via-sky-100 to-sky-200 rounded-2xl p-6 sm:p-8 border border-sky-200 shadow-lg">
-        <h3 className="text-lg sm:text-xl font-bold text-sky-800 mb-6 flex items-center">
-          <div className="w-6 h-6 bg-sky-500 rounded-lg flex items-center justify-center mr-3">
+      <div className="bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200 rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-lg">
+        <h3 className="text-lg sm:text-xl font-bold text-slate-800 mb-6 flex items-center">
+          <div className="w-6 h-6 bg-slate-600 rounded-lg flex items-center justify-center mr-3">
             <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
             </svg>
