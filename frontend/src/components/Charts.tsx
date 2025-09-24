@@ -49,10 +49,15 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios }) => {
 
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-5">
       {/* 누적 수익률별 시나리오 비교 */}
-      <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
-        <h3 className="text-base sm:text-xl font-semibold text-gray-800 mb-3 sm:mb-4">누적 수익률별 시나리오 비교</h3>
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        <div className="bg-gradient-to-r from-slate-700 to-slate-800 px-6 py-4 border-b border-slate-900">
+          <h2 className="text-lg font-bold text-white">누적 수익률별 시나리오 비교</h2>
+          <p className="text-slate-300 text-sm mt-1">만기 수익률에 따른 각 투자 종류별 누적 수익률 변화를 확인하세요</p>
+        </div>
+        <div className="p-6 space-y-5">
+          <div className="bg-gray-50/50 rounded-lg p-4 border border-gray-200">
         <div className="h-64 sm:h-80">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={scenarioData}>
@@ -138,12 +143,19 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios }) => {
               />
             </LineChart>
           </ResponsiveContainer>
+            </div>
+          </div>
         </div>
       </div>
 
       {/* 종별 평가액 변동 분석 */}
-      <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
-        <h3 className="text-base sm:text-xl font-semibold text-gray-800 mb-3 sm:mb-4">투자금 종류별 평가액 변동 분석</h3>
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        <div className="bg-gradient-to-r from-slate-700 to-slate-800 px-6 py-4 border-b border-slate-900">
+          <h2 className="text-lg font-bold text-white">투자금 종류별 평가액 변동 분석</h2>
+          <p className="text-slate-300 text-sm mt-1">수익률 변화에 따른 각 종류별 평가액의 누적 변동을 확인하세요</p>
+        </div>
+        <div className="p-6 space-y-5">
+          <div className="bg-gray-50/50 rounded-lg p-4 border border-gray-200">
         <div className="h-64 sm:h-80">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={scenarioData}>
@@ -216,12 +228,19 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios }) => {
               })}
             </BarChart>
           </ResponsiveContainer>
+            </div>
+          </div>
         </div>
       </div>
 
       {/* 수익률별 투자 시나리오 분석 */}
-      <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
-        <h3 className="text-base sm:text-xl font-semibold text-gray-800 mb-3 sm:mb-4">수익률별 투자 시나리오 분석</h3>
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        <div className="bg-gradient-to-r from-slate-700 to-slate-800 px-6 py-4 border-b border-slate-900">
+          <h2 className="text-lg font-bold text-white">수익률별 투자 시나리오 분석</h2>
+          <p className="text-slate-300 text-sm mt-1">다양한 수익률 시나리오별 투자 성과를 표로 확인하세요</p>
+        </div>
+        <div className="p-6 space-y-5">
+          <div className="bg-gray-50/50 rounded-lg p-4 border border-gray-200">
         <div className="overflow-x-auto mb-4 sm:mb-6">
           <table className="w-full border-collapse border border-gray-300 text-xs sm:text-sm">
             <thead>
@@ -260,6 +279,8 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios }) => {
               ))}
             </tbody>
           </table>
+            </div>
+          </div>
         </div>
       </div>
     </div>
