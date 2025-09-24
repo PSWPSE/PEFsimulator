@@ -113,11 +113,11 @@ input[type="radio"]:focus {
 
 /* 네온 색상 클래스 */
 .text-neon-green {
-  color: #00ff41;
+  color: #22c55e;
 }
 
 .text-neon-red {
-  color: #ff073a;
+  color: #ef4444;
 }
 
 .text-neutral-black {

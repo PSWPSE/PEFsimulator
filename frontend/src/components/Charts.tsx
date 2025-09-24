@@ -262,9 +262,7 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios }) => {
                   </td>
                   {scenarioData.filter((_, index) => index % 5 === 0).map((scenario, index) => {
                     const cumulativeReturn = scenario[`${type.id}CumulativeReturn`] || 0;
-                    const colorClass = type.isBaseType 
-                      ? (cumulativeReturn >= 0 ? 'text-black' : 'text-orange-600')
-                      : (cumulativeReturn >= 0 ? 'text-black' : 'text-red-600');
+                    const colorClass = getProfitColorClass(cumulativeReturn);
                     
                     return (
                       <td key={index} className={`border border-gray-300 px-3 py-2 text-center w-20 ${colorClass}`}>
