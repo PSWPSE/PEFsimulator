@@ -410,7 +410,7 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, defaultValues })
             </div>
             <p className="text-xs text-gray-500 mt-2">
               전체 구간 동일 분배율: 모든 수익률 구간에 동일한 분배율 적용<br className="hidden sm:block"/>
-              <span className="sm:hidden"> / </span>범위별 분배율: 누적수익률 구간에 따라 다른 분배율 적용 (최소: 초과, 최대: 이하)
+              <span className="sm:hidden"> / </span>범위별 분배율: 누적수익률 구간에 따라 다른 분배율 적용 (최소: 초과, 최대: 이하 / 최대 부분 미입력 시 '최대한도없음' 적용)
             </p>
           </div>
 
@@ -477,7 +477,7 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, defaultValues })
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 mb-3">
                         {/* 범위 설정 */}
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">최소 (% 초과)</label>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">최소 (%)</label>
                           <input
                             type="number"
                             step="0.1"
@@ -492,7 +492,7 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, defaultValues })
                         </div>
 
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">최대 (% 이하)</label>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">최대 (%)</label>
                           <input
                             type="number"
                             step="0.1"
@@ -504,7 +504,6 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, defaultValues })
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                             placeholder="무제한"
                           />
-                          <p className="text-xs text-gray-500 mt-1">비워두면 무제한</p>
                         </div>
 
                         {/* 종류별 분배율 */}
