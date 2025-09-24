@@ -473,8 +473,8 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, defaultValues })
 
                 <div className="space-y-4">
                   {rangeFields.map((rangeField, rangeIndex) => (
-                    <div key={rangeField.id} className="p-3 bg-gray-50 rounded-lg border border-gray-200">
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 items-start mb-3">
+                    <div key={rangeField.id} className="border-b border-gray-200 pb-4 last:border-b-0 last:pb-0">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 mb-3">
                         {/* 범위 설정 */}
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-1">최소 (% 초과)</label>
