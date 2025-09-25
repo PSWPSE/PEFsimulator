@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import React from 'react';
 import type { InvestmentResult } from '../types/investment';
 import { formatCurrency, formatPercentage, getProfitColorClass } from '../utils/calculator';
 
@@ -6,11 +6,11 @@ interface ResultDisplayProps {
   result: InvestmentResult;
 }
 
-export const ResultDisplay = forwardRef<HTMLDivElement, ResultDisplayProps>(({ result }, ref) => {
+export const ResultDisplay: React.FC<ResultDisplayProps> = ({ result }) => {
   return (
     <div className="space-y-5">
       {/* 전체 요약 */}
-      <div ref={ref} className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
         <div className="bg-gradient-to-r from-slate-700 to-slate-800 px-6 py-4 border-b border-slate-900">
           <h2 className="text-lg font-bold text-white">전체 현황</h2>
           <p className="text-slate-300 text-sm mt-1">설정한 수익률 달성 시 펀드 전체의 성과 현황을 확인하세요</p>
@@ -324,6 +324,4 @@ export const ResultDisplay = forwardRef<HTMLDivElement, ResultDisplayProps>(({ r
       </div>
     </div>
   );
-});
-
-ResultDisplay.displayName = 'ResultDisplay';
+};

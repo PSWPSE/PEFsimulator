@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { InputForm } from './components/InputForm';
 import { ResultDisplay } from './components/ResultDisplay';
 import { Charts } from './components/Charts';
@@ -11,8 +11,6 @@ function App() {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isInputCollapsed, setIsInputCollapsed] = useState(false);
-  const resultRef = useRef<HTMLDivElement>(null);
-  const overviewRef = useRef<HTMLDivElement>(null);
 
   const handleSubmit = async (data: InvestmentInput) => {
     try {
@@ -51,11 +49,11 @@ function App() {
       // 시뮬레이션 완료 후 자동으로 투자조건 설정 접기
       setIsInputCollapsed(true);
       
-      // '전체 현황' 섹션으로 자동 스크롤 (접기 애니메이션 완료 후)
+      // 사이트 최상단으로 자동 스크롤 (접기 애니메이션 완료 후)
       setTimeout(() => {
-        overviewRef.current?.scrollIntoView({ 
-          behavior: 'smooth', 
-          block: 'start' 
+        window.scrollTo({ 
+          top: 0, 
+          behavior: 'smooth' 
         });
       }, 400); // 300ms 애니메이션 + 100ms 여유시간
       
@@ -173,7 +171,7 @@ function App() {
 
         {/* 결과 및 차트 영역 */}
         {result && (
-          <div ref={resultRef} className={`mt-6 lg:mt-0 lg:flex-1 lg:h-full lg:overflow-y-auto scrollbar-thin ${isInputCollapsed ? 'lg:pl-2' : 'lg:pl-2'}`}>
+          <div className={`mt-6 lg:mt-0 lg:flex-1 lg:h-full lg:overflow-y-auto scrollbar-thin ${isInputCollapsed ? 'lg:pl-2' : 'lg:pl-2'}`}>
             <div className="space-y-4 sm:space-y-6">
               {/* 오류 메시지 */}
               {error && (
@@ -193,7 +191,7 @@ function App() {
               )}
 
               {/* 결과 표시 */}
-              <ResultDisplay ref={overviewRef} result={result} />
+              <ResultDisplay result={result} />
 
               {/* 차트 표시 */}
               {scenarios.length > 0 && (
