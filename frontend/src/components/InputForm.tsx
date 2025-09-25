@@ -290,7 +290,8 @@ export const InputForm: React.FC<InputFormProps> = ({
           {showCollapseButton && onToggleCollapse && (
             <button
               onClick={onToggleCollapse}
-              className="ml-4 p-2 text-white hover:text-slate-200 transition-colors rounded-lg hover:bg-white/10"
+              className="ml-4 px-3 py-2 bg-white/10 hover:bg-white/20 text-white border border-white/20 hover:border-white/30 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-slate-700 shadow-sm hover:shadow-md"
+              title="투자조건 설정 접기/펼치기"
             >
               <svg 
                 className={`w-5 h-5 transition-transform duration-200 ${
