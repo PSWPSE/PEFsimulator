@@ -56,11 +56,13 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios }) => {
           <h2 className="text-lg font-bold text-white">누적 수익률별 시나리오 비교</h2>
           <p className="text-slate-300 text-sm mt-1">만기 수익률에 따른 각 투자 종류별 누적 수익률 변화를 확인하세요</p>
         </div>
-        <div className="p-6 space-y-5">
-          <div className="bg-gray-50/50 rounded-lg p-4 border border-gray-200">
+        <div className="p-6">
         <div className="h-64 sm:h-80">
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={scenarioData}>
+            <LineChart 
+              data={scenarioData}
+              margin={{ top: 5, right: 5, left: 5, bottom: 5 }}
+            >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis 
                 dataKey="returnRate" 
@@ -127,7 +129,7 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios }) => {
                     strokeWidth={2.5}
                     dot={false}
                     activeDot={{ r: 2.5, strokeWidth: 1 }}
-                    name={`${type.name} 누적 수익률`}
+                    name={type.name}
                   />
                 );
               })}
@@ -139,12 +141,11 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios }) => {
                 strokeDasharray="5 5"
                 dot={false}
                 activeDot={{ r: 2.5, strokeWidth: 1 }}
-                name="전체 누적 수익률"
+                name="전체"
               />
             </LineChart>
           </ResponsiveContainer>
-            </div>
-          </div>
+        </div>
         </div>
       </div>
 
@@ -154,11 +155,13 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios }) => {
           <h2 className="text-lg font-bold text-white">투자금 종류별 평가액 변동 분석</h2>
           <p className="text-slate-300 text-sm mt-1">수익률 변화에 따른 각 종류별 평가액의 누적 변동을 확인하세요</p>
         </div>
-        <div className="p-6 space-y-5">
-          <div className="bg-gray-50/50 rounded-lg p-4 border border-gray-200">
+        <div className="p-6">
         <div className="h-64 sm:h-80">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={scenarioData}>
+            <BarChart 
+              data={scenarioData}
+              margin={{ top: 5, right: 5, left: 5, bottom: 5 }}
+            >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis 
                 dataKey="returnRate" 
@@ -222,14 +225,13 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios }) => {
                     dataKey={`${type.id}Value`} 
                     stackId="total" 
                     fill={colors[index % colors.length]} 
-                    name={`${type.name} 평가액`} 
+                    name={type.name} 
                   />
                 );
               })}
             </BarChart>
           </ResponsiveContainer>
-            </div>
-          </div>
+        </div>
         </div>
       </div>
 
@@ -239,9 +241,8 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios }) => {
           <h2 className="text-lg font-bold text-white">수익률별 투자 시나리오 분석</h2>
           <p className="text-slate-300 text-sm mt-1">다양한 수익률 시나리오별 투자 성과를 표로 확인하세요</p>
         </div>
-        <div className="p-6 space-y-5">
-          <div className="bg-gray-50/50 rounded-lg p-4 border border-gray-200">
-        <div className="overflow-x-auto mb-4 sm:mb-6">
+        <div className="p-6">
+        <div className="overflow-x-auto">
           <table className="w-full border-collapse border border-gray-300 text-xs sm:text-sm">
             <thead>
               <tr className="bg-gray-100">
@@ -274,8 +275,7 @@ export const Charts: React.FC<ChartsProps> = ({ scenarios }) => {
               ))}
             </tbody>
           </table>
-            </div>
-          </div>
+        </div>
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import type { InvestmentResult } from '../types/investment';
 import { formatCurrency, formatPercentage, getProfitColorClass } from '../utils/calculator';
 
@@ -6,20 +6,18 @@ interface ResultDisplayProps {
   result: InvestmentResult;
 }
 
-export const ResultDisplay: React.FC<ResultDisplayProps> = ({ result }) => {
+export const ResultDisplay = forwardRef<HTMLDivElement, ResultDisplayProps>(({ result }, ref) => {
   return (
     <div className="space-y-5">
       {/* 전체 요약 */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+      <div ref={ref} className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
         <div className="bg-gradient-to-r from-slate-700 to-slate-800 px-6 py-4 border-b border-slate-900">
-          <h2 className="text-lg font-bold text-white">전체 요약</h2>
-          <p className="text-slate-300 text-sm mt-1">투자금 종류별 수익 분배 결과를 확인하세요</p>
+          <h2 className="text-lg font-bold text-white">전체 현황</h2>
+          <p className="text-slate-300 text-sm mt-1">설정한 수익률 달성 시 펀드 전체의 성과 현황을 확인하세요</p>
         </div>
         
-        <div className="p-6 space-y-5">
-          <div className="space-y-4">
-            <div className="bg-gray-50/50 rounded-lg p-4 border border-gray-200">
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="p-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 <div className="bg-white rounded-lg p-4 border border-gray-200 shadow-sm">
                   <div className="text-center">
                     <div className="w-8 h-8 bg-slate-600 rounded-lg flex items-center justify-center mx-auto mb-2">
@@ -67,8 +65,6 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ result }) => {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -76,17 +72,15 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ result }) => {
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
         <div className="bg-gradient-to-r from-slate-700 to-slate-800 px-6 py-4 border-b border-slate-900">
           <h2 className="text-lg font-bold text-white">
-            {result.scenarioType === 'loss' ? '손실 구조 분석' : '수익금 현황'}
+            {result.scenarioType === 'loss' ? '손실 구조 분석' : '수익금 발생 현황'}
           </h2>
           <p className="text-slate-300 text-sm mt-1">
-            {result.scenarioType === 'loss' ? '손실 분배 구조를 확인하세요' : '기준 수익금과 초과 수익금을 확인하세요'}
+            {result.scenarioType === 'loss' ? '손실 분배 구조를 확인하세요' : '기준 수익금 규모와 초과 수익금 규모를 확인하세요'}
           </p>
         </div>
         
-        <div className="p-6 space-y-5">
+        <div className="p-6">
           {result.scenarioType === 'loss' ? (
-            <div className="space-y-4">
-              <div className="bg-gray-50/50 rounded-lg p-4 border border-gray-200">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   <div className="bg-white rounded-lg p-4 border border-red-200 shadow-sm">
                     <div className="text-center">
@@ -131,12 +125,8 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ result }) => {
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
           ) : (
-            <div className="space-y-4">
-              <div className="bg-gray-50/50 rounded-lg p-4 border border-gray-200">
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-4">
                   <div className="bg-white rounded-lg p-4 border border-gray-200 shadow-sm">
                     <div className="text-center">
                       <div className="w-8 h-8 bg-slate-600 rounded-lg flex items-center justify-center mx-auto mb-2">
@@ -160,8 +150,6 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ result }) => {
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
           )}
         </div>
       </div>
@@ -169,56 +157,64 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ result }) => {
       {/* 투자금 종류별 상세 결과 */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
         <div className="bg-gradient-to-r from-slate-700 to-slate-800 px-6 py-4 border-b border-slate-900">
-          <h2 className="text-lg font-bold text-white">투자금 종류별 상세 결과</h2>
-          <p className="text-slate-300 text-sm mt-1">각 투자 종류별 세부 수익 분배 내역을 확인하세요</p>
+          <h2 className="text-lg font-bold text-white">종류별 수익금 분배 현황</h2>
+          <p className="text-slate-300 text-sm mt-1">각 투자금 종류별로 배분된 수익금 현황과 수익률을 확인하세요</p>
         </div>
         
-        <div className="p-6 space-y-5">
-          {/* 모바일: 카드 형식 */}
-          <div className="block sm:hidden space-y-4">
+        <div className="px-6 pt-4 pb-6 space-y-4">
+          {/* 모바일: 컴팩트 카드 형식 */}
+          <div className="block sm:hidden space-y-2">
             {result.typeResults.map((typeResult, index) => (
-              <div key={typeResult.id} className="bg-gray-50/50 rounded-lg p-4 border border-gray-200">
-                <div className="flex items-center mb-4">
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
-                    index === 0 ? 'bg-slate-600' :
-                    index === 1 ? 'bg-orange-500' :
-                    'bg-purple-500'
+              <div key={typeResult.id} className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
+                <div className="px-3 py-2 bg-gray-50 border-b border-gray-200">
+                  <h4 className={`font-semibold text-xs flex items-center ${
+                    index === 0 ? 'text-slate-700' :
+                    index === 1 ? 'text-orange-600' :
+                    'text-purple-600'
                   }`}>
-                    <span className="text-white font-bold text-sm">{typeResult.name}</span>
-                  </div>
-                  <h4 className="font-bold text-gray-800 ml-3 text-base">{typeResult.name} 투자금</h4>
+                    <span className={`w-4 h-4 rounded flex items-center justify-center mr-1.5 text-sm font-bold text-white ${
+                      index === 0 ? 'bg-slate-600' :
+                      index === 1 ? 'bg-orange-500' :
+                      'bg-purple-500'
+                    }`}>
+                      {index + 1}
+                    </span>
+                    {typeResult.name} 투자금
+                  </h4>
                 </div>
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <span className="text-gray-600">투자금</span>
-                    <p className="font-medium break-all">{formatCurrency(typeResult.investment)}</p>
-                  </div>
-                  {result.scenarioType === 'loss' ? (
-                    <div>
-                      <span className="text-gray-600">손실금</span>
-                      <p className="font-medium text-red-600 break-all">{formatCurrency(typeResult.loss)}</p>
+                <div className="p-3">
+                  <div className="space-y-1.5">
+                    <div className="flex justify-between items-center py-1">
+                      <span className="text-gray-600 text-xs">투자금</span>
+                      <span className="font-medium text-gray-800 text-xs">{formatCurrency(typeResult.investment)}</span>
                     </div>
-                  ) : (
-                    <>
-                      <div>
-                        <span className="text-gray-600">기준 수익금</span>
-                        <p className="font-medium break-all">{formatCurrency(typeResult.thresholdProfit)}</p>
+                    {result.scenarioType === 'loss' ? (
+                      <div className="flex justify-between items-center py-1 border-t border-gray-100">
+                        <span className="text-gray-600 text-xs">손실금</span>
+                        <span className="font-medium text-red-600 text-xs">{formatCurrency(typeResult.loss)}</span>
                       </div>
-                      <div>
-                        <span className="text-gray-600">초과 수익 분배금</span>
-                        <p className="font-medium text-orange-600 break-all">{formatCurrency(typeResult.excessProfit)}</p>
-                      </div>
-                    </>
-                  )}
-                  <div>
-                    <span className="text-gray-600">총 평가액</span>
-                    <p className="font-semibold break-all">{formatCurrency(typeResult.totalValue)}</p>
-                  </div>
-                  <div>
-                    <span className="text-gray-600">누적 수익률</span>
-                    <p className={`font-bold ${getProfitColorClass(typeResult.cumulativeReturn)}`}>
-                      {formatPercentage(typeResult.cumulativeReturn)}
-                    </p>
+                    ) : (
+                      <>
+                        <div className="flex justify-between items-center py-1 border-t border-gray-100">
+                          <span className="text-gray-600 text-xs">기준 수익금</span>
+                          <span className="font-medium text-gray-800 text-xs">{formatCurrency(typeResult.thresholdProfit)}</span>
+                        </div>
+                        <div className="flex justify-between items-center py-1">
+                          <span className="text-gray-600 text-xs">초과 수익금</span>
+                          <span className="font-medium text-orange-600 text-xs">{formatCurrency(typeResult.excessProfit)}</span>
+                        </div>
+                      </>
+                    )}
+                    <div className="flex justify-between items-center py-1 border-t border-gray-100">
+                      <span className="text-gray-600 text-xs">총 평가액</span>
+                      <span className="font-semibold text-gray-800 text-xs">{formatCurrency(typeResult.totalValue)}</span>
+                    </div>
+                    <div className="flex justify-between items-center py-1 border-t border-gray-100 mt-1">
+                      <span className="text-gray-600 text-xs font-medium">누적 수익률</span>
+                      <span className={`font-bold text-sm ${getProfitColorClass(typeResult.cumulativeReturn)}`}>
+                        {formatPercentage(typeResult.cumulativeReturn)}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -227,80 +223,96 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ result }) => {
 
           {/* 데스크톱: 테이블 형식 */}
           <div className="hidden sm:block overflow-x-auto">
-            <div className="bg-gray-50/50 rounded-lg p-4 border border-gray-200">
-              <table className="w-full border-collapse border border-gray-300">
+            <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+              <table className="w-full">
                 <thead>
-                  <tr className="bg-gray-100">
-                    <th className="border border-gray-300 px-4 py-3 text-left font-semibold">구분</th>
-                    <th className="border border-gray-300 px-4 py-3 text-right font-semibold">투자금</th>
+                  <tr className="bg-gradient-to-r from-slate-50 to-slate-100 border-b-2 border-slate-200">
+                    <th className="px-5 py-3 text-left font-semibold text-slate-700 text-xs">구분</th>
+                    <th className="px-5 py-3 text-right font-semibold text-slate-700 text-xs">투자금</th>
                     {result.scenarioType === 'loss' ? (
-                      <th className="border border-gray-300 px-4 py-3 text-right font-semibold">손실금</th>
+                      <th className="px-5 py-3 text-right font-semibold text-slate-700 text-xs">손실금</th>
                     ) : (
                       <>
-                        <th className="border border-gray-300 px-4 py-3 text-right font-semibold">기준 수익금</th>
-                        <th className="border border-gray-300 px-4 py-3 text-right font-semibold">초과 수익 분배금</th>
+                        <th className="px-5 py-3 text-right font-semibold text-slate-700 text-xs">기준 수익금</th>
+                        <th className="px-5 py-3 text-right font-semibold text-slate-700 text-xs">초과 수익금</th>
                       </>
                     )}
-                    <th className="border border-gray-300 px-4 py-3 text-right font-semibold">총 평가액</th>
-                    <th className="border border-gray-300 px-4 py-3 text-right font-semibold">누적 수익률</th>
+                    <th className="px-5 py-3 text-right font-semibold text-slate-700 text-xs">총 평가액</th>
+                    <th className="px-5 py-3 text-right font-semibold text-slate-700 text-xs">누적 수익률</th>
                   </tr>
                 </thead>
                 <tbody>
                   {/* 동적으로 각 투자 종류의 행 생성 */}
-                  {result.typeResults.map((typeResult) => (
-                    <tr key={typeResult.id} className="hover:bg-gray-50">
-                      <td className="border border-gray-300 px-4 py-3 font-medium">
-                        {typeResult.name} 투자금
+                  {result.typeResults.map((typeResult, index) => (
+                    <tr key={typeResult.id} className="hover:bg-slate-50/50 transition-colors duration-150 border-b border-gray-100">
+                      <td className="px-5 py-3 font-medium text-slate-800 text-sm">
+                        <div className="flex items-center">
+                          <span className={`w-4 h-4 rounded flex items-center justify-center mr-2.5 text-xs font-bold text-white ${
+                            index === 0 ? 'bg-slate-600' :
+                            index === 1 ? 'bg-orange-500' :
+                            'bg-purple-500'
+                          }`}>
+                            {index + 1}
+                          </span>
+                          {typeResult.name} 투자금
+                        </div>
                       </td>
-                      <td className="border border-gray-300 px-4 py-3 text-right">
+                      <td className="px-5 py-3 text-right font-medium text-slate-700 text-sm">
                         {formatCurrency(typeResult.investment)}
                       </td>
                       {result.scenarioType === 'loss' ? (
-                        <td className="border border-gray-300 px-4 py-3 text-right text-red-600">
+                        <td className="px-5 py-3 text-right font-medium text-red-600 text-sm">
                           {formatCurrency(typeResult.loss)}
                         </td>
                       ) : (
                         <>
-                          <td className="border border-gray-300 px-4 py-3 text-right">
+                          <td className="px-5 py-3 text-right font-medium text-slate-700 text-sm">
                             {formatCurrency(typeResult.thresholdProfit)}
                           </td>
-                          <td className="border border-gray-300 px-4 py-3 text-right text-orange-600">
+                          <td className="px-5 py-3 text-right font-medium text-orange-600 text-sm">
                             {formatCurrency(typeResult.excessProfit)}
                           </td>
                         </>
                       )}
-                      <td className="border border-gray-300 px-4 py-3 text-right font-semibold">
+                      <td className="px-5 py-3 text-right font-semibold text-slate-800 text-sm">
                         {formatCurrency(typeResult.totalValue)}
                       </td>
-                      <td className={`border border-gray-300 px-4 py-3 text-right font-semibold ${getProfitColorClass(typeResult.cumulativeReturn)}`}>
+                      <td className={`px-5 py-3 text-right font-semibold text-sm ${getProfitColorClass(typeResult.cumulativeReturn)}`}>
                         {formatPercentage(typeResult.cumulativeReturn)}
                       </td>
                     </tr>
                   ))}
                   
-                  <tr className="bg-blue-50 font-semibold">
-                    <td className="border border-gray-300 px-4 py-3">합계</td>
-                    <td className="border border-gray-300 px-4 py-3 text-right">
+                  <tr className="bg-gradient-to-r from-slate-100 to-slate-200 border-t-2 border-slate-300">
+                    <td className="px-5 py-3.5 font-bold text-slate-800 text-sm">
+                      <div className="flex items-center">
+                        <span className="w-4 h-4 rounded flex items-center justify-center mr-2.5 text-xs font-bold text-white bg-slate-400">
+                          Σ
+                        </span>
+                        합계
+                      </div>
+                    </td>
+                    <td className="px-5 py-3.5 text-right font-bold text-slate-800 text-sm">
                       {formatCurrency(result.totalInvestment)}
                     </td>
                     {result.scenarioType === 'loss' ? (
-                      <td className="border border-gray-300 px-4 py-3 text-right text-red-600">
+                      <td className="px-5 py-3.5 text-right font-bold text-red-600 text-sm">
                         {formatCurrency(result.typeResults.reduce((sum, type) => sum + type.loss, 0))}
                       </td>
                     ) : (
                       <>
-                        <td className="border border-gray-300 px-4 py-3 text-right">
+                        <td className="px-5 py-3.5 text-right font-bold text-slate-800 text-sm">
                           {formatCurrency(result.thresholdProfit)}
                         </td>
-                        <td className="border border-gray-300 px-4 py-3 text-right text-orange-600">
+                        <td className="px-5 py-3.5 text-right font-bold text-orange-600 text-sm">
                           {formatCurrency(result.excessProfit)}
                         </td>
                       </>
                     )}
-                    <td className="border border-gray-300 px-4 py-3 text-right">
+                    <td className="px-5 py-3.5 text-right font-bold text-slate-800 text-sm">
                       {formatCurrency(result.totalValue)}
                     </td>
-                    <td className={`border border-gray-300 px-4 py-3 text-right font-semibold ${getProfitColorClass(result.totalCumulativeReturn)}`}>
+                    <td className={`px-5 py-3.5 text-right font-bold text-sm ${getProfitColorClass(result.totalCumulativeReturn)}`}>
                       {formatPercentage(result.totalCumulativeReturn)}
                     </td>
                   </tr>
@@ -312,4 +324,6 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ result }) => {
       </div>
     </div>
   );
-};
+});
+
+ResultDisplay.displayName = 'ResultDisplay';

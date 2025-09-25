@@ -1,13 +1,66 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import type { InvestmentInput } from '../types/investment';
 
 interface InputFormProps {
   onSubmit: (data: InvestmentInput) => void;
   defaultValues?: Partial<InvestmentInput>;
+  showCollapseButton?: boolean;
+  isCollapsed?: boolean;
+  onToggleCollapse?: () => void;
 }
 
-export const InputForm: React.FC<InputFormProps> = ({ onSubmit, defaultValues }) => {
+// 도움말 툴팁 컴포넌트
+const HelpTooltip: React.FC<{ content: string; title?: string }> = ({ content, title }) => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  return (
+    <div className="relative inline-block">
+      <button
+        type="button"
+        onClick={() => setIsVisible(!isVisible)}
+        className="ml-1 w-4 h-4 bg-gray-400 hover:bg-gray-500 text-white rounded-full flex items-center justify-center text-xs transition-colors"
+        aria-label="도움말"
+      >
+        ?
+      </button>
+      
+      {isVisible && (
+        <>
+          {/* 배경 오버레이 */}
+          <div 
+            className="fixed inset-0 bg-black bg-opacity-50 z-40"
+            onClick={() => setIsVisible(false)}
+          />
+          
+          {/* 툴팁 내용 */}
+          <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-80 max-w-[90vw] bg-white border border-gray-300 rounded-lg shadow-2xl p-4 mx-4">
+            {title && (
+              <h4 className="font-semibold text-gray-800 mb-2">{title}</h4>
+            )}
+            <div className="text-sm text-gray-600 whitespace-pre-line">
+              {content}
+            </div>
+            <button
+              onClick={() => setIsVisible(false)}
+              className="absolute top-2 right-2 w-6 h-6 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center text-xs transition-colors"
+            >
+              ×
+            </button>
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
+
+export const InputForm: React.FC<InputFormProps> = ({ 
+  onSubmit, 
+  defaultValues, 
+  showCollapseButton = false, 
+  isCollapsed = false, 
+  onToggleCollapse 
+}) => {
   const { register, control, handleSubmit, watch, setValue, unregister, formState: { errors } } = useForm<InvestmentInput>({
     defaultValues: {
       investmentTypes: [
@@ -68,7 +121,7 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, defaultValues })
       setValue(`distributionRanges.${rangeIndex}.distributions.${newId}`, 0);
     });
     
-    // 전체 구간 분배율에도 새로운 종류 추가
+    // 전 구간 분배율에도 새로운 종류 추가
     setValue(`globalDistribution.${newId}`, 0);
   };
 
@@ -116,7 +169,7 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, defaultValues })
         }
       });
       
-      // 전체 구간 분배율에서도 해당 종류 제거
+      // 전 구간 분배율에서도 해당 종류 제거
       const globalDistribution = watchedValues.globalDistribution;
       if (globalDistribution && globalDistribution[typeId] !== undefined) {
         unregister(`globalDistribution.${typeId}`);
@@ -229,15 +282,45 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, defaultValues })
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
       <div className="bg-gradient-to-r from-slate-700 to-slate-800 px-6 py-4 border-b border-slate-900">
-        <h2 className="text-lg font-bold text-white">투자 조건 설정</h2>
-        <p className="text-slate-300 text-sm mt-1">투자 종류별 금액과 분배 조건을 설정하세요</p>
+        <div className="flex items-center justify-between">
+          <div className="flex-1">
+            <h2 className="text-lg font-bold text-white">투자 조건 설정</h2>
+            <p className="text-slate-300 text-sm mt-1">투자 종류별 금액과 분배 조건을 설정하세요</p>
+          </div>
+          {showCollapseButton && onToggleCollapse && (
+            <button
+              onClick={onToggleCollapse}
+              className="ml-4 p-2 text-white hover:text-slate-200 transition-colors rounded-lg hover:bg-white/10"
+            >
+              <svg 
+                className={`w-5 h-5 transition-transform duration-200 ${
+                  isCollapsed 
+                    ? 'lg:rotate-180' // PC에서는 기존과 동일 (접힌 상태에서 180도 회전)
+                    : 'rotate-180 lg:rotate-0' // 모바일에서는 반대 (펼친 상태에서 180도 회전)
+                }`} 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+          )}
+        </div>
       </div>
       
-      <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-5">
+      {/* 폼 내용 - 모바일에서는 접힌 상태에서 숨김, PC에서는 항상 표시 */}
+      <div className={`transition-all duration-300 ease-in-out overflow-hidden ${
+        isCollapsed ? 'max-h-0 opacity-0 lg:max-h-none lg:opacity-100' : 'max-h-[2000px] opacity-100'
+      }`}>
+        <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-8">
         {/* 동적 투자금 설정 */}
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h3 className="text-base font-semibold text-gray-900">투자금 설정</h3>
+        <div className="pb-6 border-b-2 border-gray-200">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-base font-semibold text-slate-700 flex items-center">
+              <div className="w-1 h-6 bg-orange-500 rounded-full mr-3"></div>
+              투자금 설정
+            </h3>
             <button
               type="button"
               onClick={addInvestmentType}
@@ -259,7 +342,8 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, defaultValues })
                   {/* 투자금 입력 - 1종 (금액만) */}
                   {field.isBaseType && (
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">{field.name} 투자금 (억원)</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">{field.name} 투자금</label>
+                      <div className="flex items-center space-x-1">
                         <input
                           type="number"
                           step="0.1"
@@ -277,9 +361,11 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, defaultValues })
                           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                           placeholder="1.0"
                         />
-                        {errors.investmentTypes?.[index]?.investment && (
-                          <p className="text-red-500 text-xs mt-1">{errors.investmentTypes[index]?.investment?.message}</p>
-                        )}
+                        <span className="text-xs text-gray-500">억원</span>
+                      </div>
+                      {errors.investmentTypes?.[index]?.investment && (
+                        <p className="text-red-500 text-xs mt-1">{errors.investmentTypes[index]?.investment?.message}</p>
+                      )}
                     </div>
                   )}
                     
@@ -298,7 +384,7 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, defaultValues })
                         </div>
                         <div className="space-y-2">
                           {/* 입력 방식 선택 라디오 버튼 */}
-                          <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
+                          <div className="flex gap-3 sm:gap-4">
                             <label className="flex items-center">
                               <input
                                 type="radio"
@@ -306,17 +392,17 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, defaultValues })
                                 value="percentage"
                                 className="mr-2"
                               />
-                              <span className="text-xs sm:text-sm">1종 대비 %</span>
+                              <span className="text-xs">1종 대비 %</span>
                             </label>
-            <label className="flex items-center">
-              <input
-                type="radio"
-                {...register(`investmentTypes.${index}.inputMode`)}
-                value="amount"
-                className="mr-2"
-              />
-              <span className="text-xs sm:text-sm">직접 입력</span>
-            </label>
+                            <label className="flex items-center">
+                              <input
+                                type="radio"
+                                {...register(`investmentTypes.${index}.inputMode`)}
+                                value="amount"
+                                className="mr-2"
+                              />
+                              <span className="text-xs">직접 입력</span>
+                            </label>
                           </div>
                           
                           {/* 입력 필드들을 한 줄로 배치 */}
@@ -383,12 +469,15 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, defaultValues })
         </div>
 
         {/* 분배율 설정 */}
-        <div className="space-y-4">
-          <h3 className="text-base font-semibold text-gray-900">초과수익 분배율 설정</h3>
+        <div className="pb-6 border-b-2 border-gray-200">
+          <h3 className="text-base font-semibold text-slate-700 mb-4 flex items-center">
+            <div className="w-1 h-6 bg-orange-500 rounded-full mr-3"></div>
+            초과수익 분배율 설정
+          </h3>
           
           {/* 분배 방식 선택 */}
           <div className="mb-4">
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-6">
+            <div className="flex gap-3 sm:gap-6">
               <label className="flex items-center">
                 <input
                   type="radio"
@@ -396,7 +485,11 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, defaultValues })
                   onChange={() => setValue('useRangeBasedDistribution', false)}
                   className="mr-2"
                 />
-                <span className="text-sm font-medium">전체 구간 동일 분배율</span>
+                <span className="text-xs font-medium">전 구간 일괄적용</span>
+                <HelpTooltip 
+                  title="전 구간 일괄적용"
+                  content="• 모든 수익률 구간에 동일한 분배율을 적용합니다.&#10;• 수익률에 관계없이 설정한 비율로 일정하게 분배됩니다.&#10;• 간단하고 예측 가능한 분배 방식입니다."
+                />
               </label>
               <label className="flex items-center">
                 <input
@@ -405,23 +498,49 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, defaultValues })
                   onChange={() => setValue('useRangeBasedDistribution', true)}
                   className="mr-2"
                 />
-                <span className="text-sm font-medium">누적수익률 범위별 분배율</span>
+                <span className="text-xs font-medium">수익률 구간별 적용</span>
+                <HelpTooltip 
+                  title="수익률 구간별 적용"
+                  content="• 누적수익률 구간에 따라 다른 분배율을 적용합니다.&#10;• 최소: 해당 수익률을 초과하는 구간&#10;• 최대: 해당 수익률 이하인 구간&#10;• 최대 부분 미입력 시 '최대한도없음'이 적용됩니다.&#10;• 수익률 성과에 따른 차등 분배가 가능합니다."
+                />
               </label>
             </div>
-            <p className="text-xs text-gray-500 mt-2">
-              전체 구간 동일 분배율: 모든 수익률 구간에 동일한 분배율 적용<br className="hidden sm:block"/>
-              <span className="sm:hidden"> / </span>범위별 분배율: 누적수익률 구간에 따라 다른 분배율 적용 (최소: 초과, 최대: 이하 / 최대 부분 미입력 시 '최대한도없음' 적용)
-            </p>
           </div>
 
-          {/* 전체 구간 분배율 */}
+          {/* 전 구간 분배율 */}
           {!watchedValues.useRangeBasedDistribution && (
             <div className="bg-white rounded-lg p-3 border border-gray-200">
-              <h4 className="text-sm sm:text-md font-semibold text-gray-800 mb-3">전체 구간 분배율</h4>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+              <div className="flex items-center justify-between mb-3">
+                <h4 className="text-sm sm:text-md font-semibold text-gray-800">전 구간 분배율</h4>
+                
+                {/* 전 구간 분배율 합계 */}
+                <div className="flex items-center gap-2 text-xs text-gray-600">
+                  <span className={`font-semibold px-2 py-1 rounded ${
+                    (() => {
+                      const currentTypeIds = watchedValues.investmentTypes?.map(type => type.id) || [];
+                      const globalDistribution = watchedValues.globalDistribution || {};
+                      const total = currentTypeIds
+                        .reduce((sum, typeId) => sum + (Number(globalDistribution[typeId]) || 0), 0);
+                      return total === 100 ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700';
+                    })()
+                  }`}>
+                    합계: {
+                      (() => {
+                        const currentTypeIds = watchedValues.investmentTypes?.map(type => type.id) || [];
+                        const globalDistribution = watchedValues.globalDistribution || {};
+                        return currentTypeIds
+                          .reduce((sum, typeId) => sum + (Number(globalDistribution[typeId]) || 0), 0)
+                          .toFixed(1);
+                      })()
+                    }%
+                  </span>
+                </div>
+              </div>
+              
+              <div className="flex gap-2 sm:gap-3">
                 {watchedValues.investmentTypes?.map((type) => (
-                  <div key={type.id}>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <div key={type.id} className="flex-1">
+                    <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                       {type.name} (%)
                     </label>
                     <input
@@ -433,26 +552,11 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, defaultValues })
                         max: { value: 100, message: '100 이하의 값을 입력해주세요' },
                         valueAsNumber: true
                       })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                      className="w-full px-2 sm:px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm"
                       placeholder="0"
                     />
                   </div>
                 ))}
-              </div>
-              
-              {/* 전체 구간 분배율 합계 */}
-              <div className="mt-3 p-2 bg-orange-50 rounded border border-orange-200">
-                <p className="text-sm text-gray-600">
-                  <strong>분배율 합계:</strong> {
-                    (() => {
-                      const currentTypeIds = watchedValues.investmentTypes?.map(type => type.id) || [];
-                      const globalDistribution = watchedValues.globalDistribution || {};
-                      return currentTypeIds
-                        .reduce((sum, typeId) => sum + (Number(globalDistribution[typeId]) || 0), 0)
-                        .toFixed(1);
-                    })()
-                  }%
-                </p>
               </div>
             </div>
           )}
@@ -461,55 +565,120 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, defaultValues })
             {watchedValues.useRangeBasedDistribution && (
               <div className="bg-white rounded-lg p-3 border border-gray-200">
                 <div className="flex justify-between items-center mb-3">
-                  <h4 className="text-sm sm:text-md font-semibold text-gray-800">누적수익률 범위별 분배율</h4>
+                  <h4 className="text-sm sm:text-md font-semibold text-gray-800">수익률 구간별 분배율</h4>
                   <button
                     type="button"
                     onClick={addDistributionRange}
-                    className="px-3 py-1 bg-orange-500 text-white text-sm rounded-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-400"
+                    className="px-3 py-1.5 bg-orange-500 text-white text-xs rounded-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-400 transition-colors"
                   >
-                    + 범위 추가
+                    + 구간 추가
                   </button>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-0">
                   {rangeFields.map((rangeField, rangeIndex) => (
-                    <div key={rangeField.id} className="border-b border-gray-200 pb-4 last:border-b-0 last:pb-0">
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 mb-3">
-                        {/* 범위 설정 */}
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">최소 (%)</label>
-                          <input
-                            type="number"
-                            step="0.1"
-                            {...register(`distributionRanges.${rangeIndex}.minReturn`, {
-                              required: '최소값을 입력해주세요',
-                              min: { value: 0, message: '0 이상의 값을 입력해주세요' },
-                              valueAsNumber: true
-                            })}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                            placeholder="0"
-                          />
-                        </div>
+                    <div key={rangeField.id} className={`relative ${rangeIndex === 0 ? 'pt-0 pb-6' : rangeIndex === rangeFields.length - 1 ? 'pt-6 pb-0' : 'py-6'} ${rangeIndex < rangeFields.length - 1 ? 'border-b-2 border-gray-200' : ''}`}>
+                      {/* 구간 제목과 분배율 합계, 삭제 버튼을 한 줄에 */}
+                      <div className="flex items-center justify-between mb-4">
+                        <h4 className="text-sm font-semibold text-slate-700 flex items-center">
+                          <div className="w-1 h-6 bg-slate-800 rounded-full mr-3"></div>
+                          {rangeIndex === 0 ? '첫번째 구간' : 
+                           rangeIndex === 1 ? '두번째 구간' : 
+                           rangeIndex === 2 ? '세번째 구간' : 
+                           rangeIndex === 3 ? '네번째 구간' : 
+                           rangeIndex === 4 ? '다섯번째 구간' : 
+                           `${rangeIndex + 1}번째 구간`}
+                        </h4>
+                        
+                        <div className="flex items-center gap-3">
+                          {/* 분배율 합계 표시 */}
+                          <div className="flex items-center gap-2 text-xs text-gray-600">
+                            <span className={`font-semibold px-2 py-1 rounded ${
+                              (() => {
+                                const currentDistributions = watchedValues.distributionRanges?.[rangeIndex]?.distributions || {};
+                                const currentTypeIds = watchedValues.investmentTypes?.map(type => type.id) || [];
+                                const total = currentTypeIds
+                                  .reduce((sum, typeId) => sum + (Number(currentDistributions[typeId]) || 0), 0);
+                                return total === 100 ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700';
+                              })()
+                            }`}>
+                              합계: {
+                                (() => {
+                                  const currentDistributions = watchedValues.distributionRanges?.[rangeIndex]?.distributions || {};
+                                  const currentTypeIds = watchedValues.investmentTypes?.map(type => type.id) || [];
+                                  return currentTypeIds
+                                    .reduce((sum, typeId) => sum + (Number(currentDistributions[typeId]) || 0), 0)
+                                    .toFixed(1);
+                                })()
+                              }%
+                            </span>
+                          </div>
 
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">최대 (%)</label>
-                          <input
-                            type="number"
-                            step="0.1"
-                            {...register(`distributionRanges.${rangeIndex}.maxReturn`, {
-                              min: { value: 0, message: '0 이상의 값을 입력해주세요' },
-                              valueAsNumber: true,
-                              setValueAs: (value) => value === '' || value === null || value === undefined ? null : Number(value)
-                            })}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                            placeholder="무제한"
-                          />
+                          {/* 삭제 버튼 */}
+                          <button
+                            type="button"
+                            onClick={() => removeDistributionRange(rangeIndex)}
+                            disabled={rangeFields.length <= 1}
+                            className={`px-3 py-1 text-white text-xs rounded-md focus:outline-none focus:ring-2 transition-colors ${
+                              rangeFields.length <= 1 
+                                ? 'bg-gray-400 cursor-not-allowed' 
+                                : 'bg-red-600 hover:bg-red-700 focus:ring-red-500'
+                            }`}
+                          >
+                            삭제
+                          </button>
                         </div>
+                      </div>
 
-                        {/* 종류별 분배율 */}
-                        {watchedValues.investmentTypes?.map((type) => (
-                          <div key={type.id}>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                      {/* 수익률 구간 설정 헤드라인 */}
+                      <div className="mb-2">
+                        <h5 className="text-xs font-semibold text-gray-600 mb-2 flex items-center">
+                          <span className="w-1 h-1 bg-gray-400 rounded-full mr-2"></span>
+                          수익률 구간 설정
+                        </h5>
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">최소 (%)</label>
+                            <input
+                              type="number"
+                              step="0.1"
+                              {...register(`distributionRanges.${rangeIndex}.minReturn`, {
+                                required: '최소값을 입력해주세요',
+                                min: { value: 0, message: '0 이상의 값을 입력해주세요' },
+                                valueAsNumber: true
+                              })}
+                              className="w-full px-2 sm:px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm"
+                              placeholder="0"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">최대 (%)</label>
+                            <input
+                              type="number"
+                              step="0.1"
+                              {...register(`distributionRanges.${rangeIndex}.maxReturn`, {
+                                min: { value: 0, message: '0 이상의 값을 입력해주세요' },
+                                valueAsNumber: true,
+                                setValueAs: (value) => value === '' || value === null || value === undefined ? null : Number(value)
+                              })}
+                              className="w-full px-2 sm:px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm"
+                              placeholder="무제한"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* 종류별 분배율 헤드라인 */}
+                      <div className="mt-4">
+                        <h5 className="text-xs font-semibold text-gray-600 mb-2 flex items-center">
+                          <span className="w-1 h-1 bg-gray-400 rounded-full mr-2"></span>
+                          종류별 분배율 설정
+                        </h5>
+                        <div className="flex gap-2 sm:gap-3">
+                          {watchedValues.investmentTypes?.map((type) => (
+                          <div key={type.id} className="flex-1">
+                            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                               {type.name} (%)
                             </label>
                             <input
@@ -521,44 +690,14 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, defaultValues })
                                 max: { value: 100, message: '100 이하의 값을 입력해주세요' },
                                 valueAsNumber: true
                               })}
-                              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                              className="w-full px-2 sm:px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm"
                               placeholder="0"
                             />
                           </div>
-                        ))}
-                      </div>
-
-                      {/* 삭제 버튼과 분배율 합계를 한 줄에 */}
-                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                        {/* 범위별 분배율 합계 표시 */}
-                        <div className="p-2 bg-orange-50 rounded border border-orange-200 flex-1">
-                          <p className="text-sm text-gray-600">
-                            <strong>분배율 합계:</strong> {
-                              (() => {
-                                const currentDistributions = watchedValues.distributionRanges?.[rangeIndex]?.distributions || {};
-                                const currentTypeIds = watchedValues.investmentTypes?.map(type => type.id) || [];
-                                return currentTypeIds
-                                  .reduce((sum, typeId) => sum + (Number(currentDistributions[typeId]) || 0), 0)
-                                  .toFixed(1);
-                              })()
-                            }%
-                          </p>
+                          ))}
                         </div>
-
-                        {/* 삭제 버튼 */}
-                        <button
-                          type="button"
-                          onClick={() => removeDistributionRange(rangeIndex)}
-                          disabled={rangeFields.length <= 1}
-                          className={`px-3 py-2 text-white text-sm rounded-md focus:outline-none focus:ring-2 ${
-                            rangeFields.length <= 1 
-                              ? 'bg-gray-400 cursor-not-allowed' 
-                              : 'bg-red-600 hover:bg-red-700 focus:ring-red-500'
-                          }`}
-                        >
-                          삭제
-                        </button>
                       </div>
+
 
                       {/* 숨겨진 필드 */}
                       <input type="hidden" {...register(`distributionRanges.${rangeIndex}.id`)} value={rangeField.id} />
@@ -570,20 +709,24 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, defaultValues })
         </div>
 
         {/* 기타 설정 */}
-        <div className="space-y-4">
-          <h3 className="text-base font-semibold text-gray-900">기타 설정</h3>
+        <div>
+          <h3 className="text-base font-semibold text-slate-700 mb-4 flex items-center">
+            <div className="w-1 h-6 bg-orange-500 rounded-full mr-3"></div>
+            기타 설정
+          </h3>
           
-          {/* 기준 수익률 및 투자 기간 */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+          {/* 기준 수익률, 투자 기간, 달성 수익률 */}
+          <div className="grid grid-cols-3 gap-1 sm:gap-3">
             <div className="bg-gray-50/50 rounded-lg p-3 border border-gray-200">
-              <label className="block text-xs font-medium text-gray-700 mb-2">
-                1종 기준 수익률 (연환산 %)
+              <label className="block text-xs font-medium text-gray-700 mb-2 h-8">
+                <div>기준수익률</div>
+                <div>(연, %)</div>
               </label>
               <input
                 type="number"
                 step="0.1"
                 {...register('thresholdReturn', { 
-                  required: '1종 기준 수익률을 입력해주세요',
+                  required: '기준 수익률을 입력해주세요',
                   min: { value: 0, message: '0 이상의 값을 입력해주세요' },
                   valueAsNumber: true,
                   validate: (value) => {
@@ -593,7 +736,7 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, defaultValues })
                     return true;
                   }
                 })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                className="w-full px-2 sm:px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm"
                 placeholder="7.0"
               />
               {errors.thresholdReturn && (
@@ -602,8 +745,9 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, defaultValues })
             </div>
 
             <div className="bg-gray-50/50 rounded-lg p-3 border border-gray-200">
-              <label className="block text-xs font-medium text-gray-700 mb-2">
-                투자 기간 (년)
+              <label className="block text-xs font-medium text-gray-700 mb-2 h-8">
+                <div>투자기간</div>
+                <div>(년)</div>
               </label>
               <input
                 type="number"
@@ -619,45 +763,45 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, defaultValues })
                     return true;
                   }
                 })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                className="w-full px-2 sm:px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm"
                 placeholder="2.0"
               />
               {errors.investmentPeriod && (
                 <p className="text-red-500 text-xs mt-1">{errors.investmentPeriod.message}</p>
               )}
             </div>
-          </div>
 
-          {/* 달성 수익률 */}
-          <div className="bg-gray-50/50 rounded-lg p-3 border border-gray-200">
-            <label className="block text-xs font-medium text-gray-700 mb-2">
-              달성 수익률 (누적 수익률 %)
-            </label>
-            <input
-              type="number"
-              step="0.1"
-              {...register('simulationReturn', { 
-                required: '달성 수익률을 입력해주세요',
-                valueAsNumber: true,
-                validate: (value) => {
-                  if (isNaN(value) || !isFinite(value)) {
-                    return '올바른 숫자를 입력해주세요';
+            <div className="bg-gray-50/50 rounded-lg p-3 border border-gray-200">
+              <label className="block text-xs font-medium text-gray-700 mb-2 h-8">
+                <div>달성수익률</div>
+                <div>(누적, %)</div>
+              </label>
+              <input
+                type="number"
+                step="0.1"
+                {...register('simulationReturn', { 
+                  required: '달성 수익률을 입력해주세요',
+                  valueAsNumber: true,
+                  validate: (value) => {
+                    if (isNaN(value) || !isFinite(value)) {
+                      return '올바른 숫자를 입력해주세요';
+                    }
+                    return true;
                   }
-                  return true;
-                }
-              })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-              placeholder="24.0"
-            />
-            {errors.simulationReturn && (
-              <p className="text-red-500 text-xs mt-1">{errors.simulationReturn.message}</p>
-            )}
+                })}
+                className="w-full px-2 sm:px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm"
+                placeholder="24.0"
+              />
+              {errors.simulationReturn && (
+                <p className="text-red-500 text-xs mt-1">{errors.simulationReturn.message}</p>
+              )}
+            </div>
           </div>
         </div>
 
         <button
           type="submit"
-          className="w-full bg-gradient-to-r from-slate-700 to-slate-800 text-white py-3 px-6 rounded-xl hover:from-slate-800 hover:to-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 font-medium transition-all duration-200 shadow-sm hover:shadow-md text-sm"
+          className="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white py-3 px-6 rounded-xl hover:from-orange-600 hover:to-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 font-medium transition-all duration-200 shadow-sm hover:shadow-md text-sm"
         >
           <span className="flex items-center justify-center">
             <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -666,7 +810,8 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, defaultValues })
             시뮬레이션 실행
           </span>
         </button>
-      </form>
+        </form>
+      </div>
     </div>
   );
 };
