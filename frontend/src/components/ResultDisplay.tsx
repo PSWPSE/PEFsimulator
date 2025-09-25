@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import type { InvestmentResult } from '../types/investment';
 import { formatCurrency, formatPercentage, getProfitColorClass } from '../utils/calculator';
 
